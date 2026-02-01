@@ -4,7 +4,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import DashBoard from "./pages/dashboard";
+import DashBoard from "./pages/Dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import RootRedirect from "./routes/RootRedirect.jsx";
 
