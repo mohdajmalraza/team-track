@@ -5,13 +5,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import DashBoard from "./pages/dashboard";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import RootRedirect from "./routes/RootRedirect.jsx";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Login /> },
+  { path: "/", element: <RootRedirect /> },
+
+  { path: "/login", element: <Login /> },
   { path: "/signup", element: <Signup /> },
   {
     path: "/dashboard",
-    element: <DashBoard />,
+    element: (
+      <ProtectedRoute>
+        <DashBoard />
+      </ProtectedRoute>
+    ),
   },
   { path: "*", element: <h2>404 – Page Not Found</h2> },
 ]);
