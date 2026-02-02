@@ -6,7 +6,7 @@ import appLogo from "../assets/logo.png";
 import axiosInstance from "../api/axiosInstance";
 import useAuthContext from "../context/AuthContext";
 
-function Signup() {
+function SignupPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -165,4 +165,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default SignupPage;
