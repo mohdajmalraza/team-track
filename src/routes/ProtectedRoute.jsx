@@ -5,7 +5,11 @@ function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuthContext();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="spinner-grow text-info" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    );
   }
 
   if (!isAuthenticated) {

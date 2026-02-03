@@ -8,17 +8,17 @@ import { LuSettings } from "react-icons/lu";
 
 const Sidebar = () => {
   const linkClass = ({ isActive }) =>
-    `nav-link text-dark d-flex align-items-center gap-2 ${isActive ? "text-white bg-info" : ""}`;
+    `nav-link d-flex align-items-center gap-2 text-dark rounded px-3 ${isActive ? "text-white bg-info" : ""}`;
 
   return (
-    <aside className="col-md-2 d-flex flex-column vh-100 p-3 border-end fw-semibold bg-primary-subtle">
+    <aside className="col-md-3 col-lg-2 d-none d-md-flex flex-column align-items-center min-vh-100 py-3 border-end fw-semibold">
       {/* Logo */}
-      <div className="d-flex align-items-center mb-4">
+      <div className="mb-3 w-75">
         <img src={logoImage} alt="Team-Track-logo" className="img-fluid" />
       </div>
 
       {/* Navigation */}
-      <ul className="nav nav-pills flex-column gap-1">
+      <ul className="nav nav-pills flex-column gap-1 w-100">
         <li className="nav-item">
           <NavLink to="/dashboard" className={linkClass}>
             <MdOutlineDashboard size={20} />

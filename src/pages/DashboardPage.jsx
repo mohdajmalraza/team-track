@@ -1,18 +1,27 @@
-import TopNavbar from "../components/dashboard/TopNavbar";
 import Sidebar from "../components/layout/Sidebar";
+import MobileSidebar from "../components/layout/MobileSidebar";
+import TopNavbar from "../components/dashboard/TopNavbar";
+import ProjectsSection from "../components/dashboard/ProjectsSection";
+import TasksSection from "../components/dashboard/TasksSection";
+import NewProjectModal from "../components/dashboard/NewProjectModal";
 
 function DashboardPage() {
   return (
-    <main className="row m-0">
-      <Sidebar />
+    <>
+      <MobileSidebar />
 
-      <div className="col-md-10">
-        <h2 className="text-center text-danger py-5">
-          This page is under progress
-        </h2>
-        {/* <TopNavbar /> */}
-      </div>
-    </main>
+      <main className="row m-0">
+        <Sidebar />
+
+        <div className="col-md-9 col-lg-10 px-4 py-3 min-vh-100 bg-light">
+          <TopNavbar />
+          <ProjectsSection />
+          <TasksSection />
+        </div>
+      </main>
+
+      <NewProjectModal />
+    </>
   );
 }
 
