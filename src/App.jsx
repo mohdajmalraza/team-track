@@ -15,6 +15,7 @@ import ProjectsPage from "./pages/ProjectsPage.jsx";
 import TeamsPage from "./pages/TeamsPage.jsx";
 import ReportsPage from "./pages/ReportsPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
+import { TaskProvider } from "./context/TaskContext.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <RootRedirect /> },
@@ -69,7 +70,9 @@ function App() {
     <>
       <AuthProvider>
         <ProjectProvider>
-          <RouterProvider router={router} />
+          <TaskProvider>
+            <RouterProvider router={router} />
+          </TaskProvider>
         </ProjectProvider>
       </AuthProvider>
 

@@ -7,10 +7,7 @@ function ProjectsSection() {
     <div className="mb-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex gap-4 align-items-center">
-          <h4>Projects</h4>
-          {/* <select name="" id="" className="col-4 form-select form-select-sm">
-            <option value="">Filter</option>
-          </select> */}
+          <h4 className="text-nowrap">Recent Projects</h4>
         </div>
 
         <div>
@@ -26,8 +23,10 @@ function ProjectsSection() {
 
       <div>
         {loading && (
-          <div className="spinner-grow text-info text-center" role="status">
-            <span className="visually-hidden">Loading...</span>
+          <div className="text-center">
+            <div className="spinner-grow text-info" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
           </div>
         )}
 
@@ -41,10 +40,10 @@ function ProjectsSection() {
           <>
             {projects.length > 0 ? (
               <div className="row">
-                {projects.map((project) => (
+                {projects.slice(0, 3).map((project) => (
                   <div
                     key={project.id}
-                    className="col-md-4 mb-2"
+                    className="col-sm-6 col-lg-4 mb-2"
                     style={{ height: "170px" }}
                   >
                     <div className="card h-100 px-3 py-2 border-0 shadow-sm bg-white">
@@ -55,7 +54,9 @@ function ProjectsSection() {
                           {project.status}
                         </span>
                       </div>
-                      <h5>{project.name}</h5>
+
+                      <h5 className="text-truncate">{project.name}</h5>
+
                       <p className="text-muted line-clamp-3">
                         {project.description}
                       </p>
