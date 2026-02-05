@@ -50,6 +50,12 @@ export function AuthProvider({ children }) {
     await checkAuth(); // Validate token with backend and sync authenticated user state
   };
 
+  const logout = async () => {
+    localStorage.removeItem("token");
+    setIsLoading(false);
+    setUser(null);
+  };
+
   useEffect(() => {
     checkAuth();
   }, []);
@@ -62,6 +68,7 @@ export function AuthProvider({ children }) {
         isLoading,
         login,
         signup,
+        logout,
       }}
     >
       {children}

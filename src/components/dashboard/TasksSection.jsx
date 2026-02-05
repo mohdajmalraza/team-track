@@ -107,7 +107,7 @@ function TasksSection() {
                       </p>
 
                       {task.owners.length > 0 ? (
-                        <div className="d-flex align-items-center">
+                        <div className="d-flex align-items-center overflow-hidden">
                           {task.owners.map((owner, index) => (
                             <div
                               key={index}
