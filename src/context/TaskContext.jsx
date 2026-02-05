@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axiosInstance from "../api/axiosInstance";
 import useAuthContext from "./AuthContext";
+import axiosInstance from "../api/axiosInstance";
 
 const TaskContext = createContext();
 
@@ -42,6 +42,24 @@ export function TaskProvider({ children }) {
     }
   }
 
+  const createTask = async (data) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      return;
+    }
+
+    try {
+      const res = await axiosInstance.post("/tasks", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setTasks((prev) => [...prev, res.data.task]);
+    } catch (error) {
+      throw new Error(error.response?.data?.message || "Task creation failed");
+    }
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
       fetchTasks();
@@ -49,7 +67,9 @@ export function TaskProvider({ children }) {
   }, [isAuthenticated]);
 
   return (
-    <TaskContext.Provider value={{ tasks, loading, error, fetchTasks }}>
+    <TaskContext.Provider
+      value={{ tasks, loading, error, fetchTasks, createTask }}
+    >
       {children}
     </TaskContext.Provider>
   );

@@ -38,10 +38,11 @@ function TasksSection() {
   return (
     <div className="mb-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <div className="d-flex gap-4 align-items-center">
-          <h4 className="text-nowrap">My Tasks</h4>
+        <div className="col-6 col-sm-6 col-md-5 col-lg-4 d-flex flex-column flex-sm-row">
+          <h4 className="me-2 text-nowrap">My Tasks</h4>
+
           <select
-            className="col-4 form-select form-select-sm"
+            className="w-100 form-select form-select-sm"
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
           >
@@ -54,7 +55,11 @@ function TasksSection() {
         </div>
 
         <div>
-          <button className="btn btn-info fw-semibold text-white">
+          <button
+            className="btn btn-info fw-semibold text-white"
+            data-bs-toggle="modal"
+            data-bs-target="#newTaskModal"
+          >
             + New Task
           </button>
         </div>

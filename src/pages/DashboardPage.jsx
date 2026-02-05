@@ -4,6 +4,7 @@ import TopNavbar from "../components/dashboard/TopNavbar";
 import ProjectsSection from "../components/dashboard/ProjectsSection";
 import TasksSection from "../components/dashboard/TasksSection";
 import NewProjectModal from "../components/dashboard/NewProjectModal";
+import NewTaskModal from "../components/dashboard/NewTaskModal";
 
 function DashboardPage() {
   return (
@@ -21,6 +22,7 @@ function DashboardPage() {
       </main>
 
       <NewProjectModal />
+      <NewTaskModal />
     </>
   );
 }

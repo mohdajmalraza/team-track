@@ -52,7 +52,6 @@ export function ProjectProvider({ children }) {
       });
 
       setProjects((prev) => [...prev, res.data.project]);
-      return res.data.project;
     } catch (error) {
       throw new Error(
         error.response?.data?.message || "Project creation failed",
