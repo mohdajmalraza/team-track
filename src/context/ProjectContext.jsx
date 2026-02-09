@@ -14,7 +14,7 @@ export function ProjectProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchProjects = async () => {
+  const fetchProjects = async (filters) => {
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -28,6 +28,7 @@ export function ProjectProvider({ children }) {
       setError(null);
 
       const res = await axiosInstance.get("/projects", {
+        params: filters,
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -61,13 +62,13 @@ export function ProjectProvider({ children }) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetchProjects();
+      fetchProjects({ sortBy: "createdAt", order: "desc", limit: 3 });
     }
   }, [isAuthenticated]);
 
   return (
     <ProjectContext.Provider
-      value={{ projects, loading, error, createProject }}
+      value={{ projects, loading, error, fetchProjects, createProject }}
     >
       {children}
     </ProjectContext.Provider>

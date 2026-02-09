@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
-import useProjectContext from "../../context/ProjectContext";
 import { toast } from "react-toastify";
 import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
+import useProjectContext from "../../context/ProjectContext";
 
 function NewProjectModal() {
   const [name, setName] = useState("");
@@ -68,7 +68,7 @@ function NewProjectModal() {
             <form>
               <div className="mb-3">
                 <label className="form-label">Project Name</label>
-                <span className="text-danger">*</span>
+                <span className="text-danger fw-semibold">*</span>
                 <input
                   type="text"
                   placeholder="Enter Project Name"

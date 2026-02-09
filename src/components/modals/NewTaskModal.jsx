@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
+import { toast } from "react-toastify";
+import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
 import useProjectContext from "../../context/ProjectContext";
 import useTeamContext from "../../context/TeamContext";
 import useUserContext from "../../context/UserContext";
 import useTaskContext from "../../context/TaskContext";
-import { toast } from "react-toastify";
-import { Modal } from "bootstrap/dist/js/bootstrap.bundle.min";
 
 function NewTaskModal() {
   const { projects } = useProjectContext();
@@ -21,6 +21,7 @@ function NewTaskModal() {
     tags: "",
     status: "To Do",
     timeToComplete: "",
+    dueDate: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -41,8 +42,16 @@ function NewTaskModal() {
   };
 
   const handleButtonClick = async () => {
-    const { name, project, team, owners, timeToComplete, status, tags } =
-      formData;
+    const {
+      name,
+      project,
+      team,
+      owners,
+      timeToComplete,
+      status,
+      tags,
+      dueDate,
+    } = formData;
 
     if (!name.trim()) {
       return setError("Task name is required");
@@ -64,6 +73,10 @@ function NewTaskModal() {
       return setError("Estimated time is required");
     }
 
+    if (!dueDate) {
+      return setError("Due date is required");
+    }
+
     try {
       setError("");
       setLoading(true);
@@ -76,6 +89,7 @@ function NewTaskModal() {
         status,
         timeToComplete: Number(timeToComplete),
         tags: tags.split(",").map((t) => t.trim()) || [],
+        dueDate,
       });
       toast.success("Task created successfully");
 
@@ -91,6 +105,7 @@ function NewTaskModal() {
         tags: "",
         status: "To Do",
         timeToComplete: "",
+        dueDate: "",
       });
     } catch (err) {
       console.log(err);
@@ -222,7 +237,7 @@ function NewTaskModal() {
                 />
               </div>
 
-              <div className="row">
+              <div className="row mb-2">
                 <div className="col-6">
                   <label htmlFor="" className="form-label">
                     Select Status
@@ -255,6 +270,21 @@ function NewTaskModal() {
                     onChange={handleChange}
                   />
                 </div>
+              </div>
+
+              <div>
+                <label htmlFor="dueDate" className="form-label">
+                  Select Due date
+                </label>
+                <span className="text-danger fw-semibold">*</span>
+                <input
+                  type="date"
+                  id="dueDate"
+                  name="dueDate"
+                  className="form-control"
+                  value={formData.dueDate}
+                  onChange={handleChange}
+                />
               </div>
             </form>
 

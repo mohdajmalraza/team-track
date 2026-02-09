@@ -4,8 +4,11 @@ import { GoProjectSymlink } from "react-icons/go";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { LiaChartBarSolid } from "react-icons/lia";
 import { LuSettings } from "react-icons/lu";
+import useAuthContext from "../../context/AuthContext";
 
 function MobileSidebar() {
+  const { user } = useAuthContext();
+
   const linkClass = ({ isActive }) =>
     `nav-link text-dark d-flex align-items-center gap-2 ${isActive ? "text-white bg-info" : ""}`;
 
@@ -16,6 +19,16 @@ function MobileSidebar() {
       id="mobileSidebar"
     >
       <div className="offcanvas-body">
+        <div className="mb-3 d-flex gap-1 align-items-center">
+          <span
+            className="bg-dark text-light border rounded-circle d-flex justify-content-center align-items-center"
+            style={{ width: "32px", height: "32px" }}
+          >
+            {user.name.split(" ").map((w) => w.charAt(0))}
+          </span>
+          <span className="fw-semibold">{user.name.split(" ").join(" ")}</span>
+        </div>
+
         <ul className="nav nav-pills flex-column gap-1">
           <li className="nav-item">
             <NavLink to="/dashboard" className={linkClass}>

@@ -1,35 +1,10 @@
 import { useEffect, useState } from "react";
 import useTaskContext from "../../context/TaskContext";
+import TaskCard from "./TaskCard";
 
 function TasksSection() {
   const [selectedStatus, setSelectedStatus] = useState("");
-
   const { tasks, loading, error, fetchTasks } = useTaskContext();
-
-  const getOrdinal = (n) => {
-    if (n > 3 && n < 21) return "th";
-
-    switch (n % 10) {
-      case 1:
-        return "st";
-      case 2:
-        return "nd";
-      case 3:
-        return "rd";
-      default:
-        return "th";
-    }
-  };
-
-  const calculateDuoDate = (days) => {
-    const date = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
-
-    const day = date.getDate();
-    const month = date.toLocaleDateString("en-GB", { month: "short" });
-    const year = date.getFullYear();
-
-    return `${day}${getOrdinal(day)} ${month} ${year}`;
-  };
 
   useEffect(() => {
     fetchTasks({ status: selectedStatus || undefined });
@@ -90,41 +65,7 @@ function TasksSection() {
                     className="col-sm-6 col-lg-4 mb-2"
                     style={{ height: "170px" }}
                   >
-                    <div className="card h-100 px-3 py-2 border-0 shadow-sm bg-white">
-                      <div className="mb-1">
-                        <span
-                          className={`badge opacity-75 ${task.status === "Completed" ? "bg-success" : task.status === "Blocked" ? "bg-danger" : "bg-warning"}`}
-                        >
-                          {task.status}
-                        </span>
-                      </div>
-
-                      <h5 className="text-truncate">{task.name}</h5>
-
-                      <p className="text-muted line-clamp-3">
-                        <span>Duo on: </span>
-                        <span>{calculateDuoDate(task.timeToComplete)}</span>
-                      </p>
-
-                      {task.owners.length > 0 ? (
-                        <div className="d-flex align-items-center overflow-hidden">
-                          {task.owners.map((owner, index) => (
-                            <div
-                              key={index}
-                              className="d-flex align-items-center me-2"
-                            >
-                              <span
-                                className={`border rounded-circle d-inline-flex align-items-center justify-content-center fw-semibold ${index === 0 ? "bg-danger text-white" : "bg-warning"}`}
-                                style={{ width: "32px", height: "32px" }}
-                              >
-                                {owner.name.split(" ").map((w) => w.charAt(0))}
-                              </span>
-                              <span className="px-1">{`${owner.name} `}</span>
-                            </div>
-                          ))}
-                        </div>
-                      ) : null}
-                    </div>
+                    <TaskCard task={task} />
                   </div>
                 ))}
               </div>

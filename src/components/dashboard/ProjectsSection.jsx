@@ -1,4 +1,5 @@
 import useProjectContext from "../../context/ProjectContext";
+import ProjectCard from "./ProjectCard";
 
 function ProjectsSection() {
   const { projects, loading, error } = useProjectContext();
@@ -46,21 +47,7 @@ function ProjectsSection() {
                     className="col-sm-6 col-lg-4 mb-2"
                     style={{ height: "170px" }}
                   >
-                    <div className="card h-100 px-3 py-2 border-0 shadow-sm bg-white">
-                      <div className="mb-1">
-                        <span
-                          className={`badge opacity-50 ${project.status === "In Progress" ? "bg-warning" : "bg-success"}`}
-                        >
-                          {project.status}
-                        </span>
-                      </div>
-
-                      <h5 className="text-truncate">{project.name}</h5>
-
-                      <p className="text-muted line-clamp-3">
-                        {project.description}
-                      </p>
-                    </div>
+                    <ProjectCard project={project} />
                   </div>
                 ))}
               </div>

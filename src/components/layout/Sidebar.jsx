@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import logoImage from "../../assets/logo.png";
 import { MdOutlineDashboard } from "react-icons/md";
 import { GoProjectSymlink } from "react-icons/go";
@@ -14,7 +14,9 @@ const Sidebar = () => {
     <aside className="col-md-3 col-lg-2 d-none d-md-flex flex-column align-items-center min-vh-100 py-3 border-end fw-semibold">
       {/* Logo */}
       <div className="mb-3 w-75">
-        <img src={logoImage} alt="Team-Track-logo" className="img-fluid" />
+        <Link to="/dashboard">
+          <img src={logoImage} alt="Team-Track-logo" className="img-fluid" />
+        </Link>
       </div>
 
       {/* Navigation */}

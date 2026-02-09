@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaUnlockAlt } from "react-icons/fa";
 import backgroungImage from "../assets/background-image.png";
 import appLogo from "../assets/logo.png";
-import axiosInstance from "../api/axiosInstance";
 import useAuthContext from "../context/AuthContext";
 
 function SignupPage() {

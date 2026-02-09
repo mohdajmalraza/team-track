@@ -6,8 +6,10 @@ function ProtectedRoute({ children }) {
 
   if (isLoading) {
     return (
-      <div className="spinner-grow text-info text-center py-5" role="status">
-        <span className="visually-hidden">Loading...</span>
+      <div className="py-5 text-center">
+        <div className="spinner-border text-dark" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
       </div>
     );
   }

@@ -1,11 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { GiHamburgerMenu, GiPowerButton } from "react-icons/gi";
 import mobileLogo from "../../assets/mobile-logo.png";
 import useAuthContext from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 function TopNavbar() {
-  const { logout } = useAuthContext();
+  const { user, logout } = useAuthContext();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -57,13 +57,23 @@ function TopNavbar() {
 
       {/* Desktop View */}
       <div className="w-100 d-none d-md-flex justify-content-between align-items-center">
-        <div className="col-sm-8">
+        <div className="w-100 me-3">
           <div className="input-group">
             <span className="input-group-text bg-white">
               <IoIosSearch />
             </span>
             <input type="text" className="form-control" placeholder="Search" />
           </div>
+        </div>
+
+        <div className="me-3 d-flex gap-1 align-items-center">
+          <span
+            className="bg-dark text-light border rounded-circle d-flex justify-content-center align-items-center"
+            style={{ width: "32px", height: "32px" }}
+          >
+            {user.name.split(" ").map((w) => w.charAt(0))}
+          </span>
+          <span className="fw-semibold">{user.name.split(" ")[0]}</span>
         </div>
 
         <div>
