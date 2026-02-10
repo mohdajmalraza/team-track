@@ -3,13 +3,21 @@ import ProjectCard from "../components/dashboard/ProjectCard";
 import useProjectContext from "../context/ProjectContext";
 
 function ProjectsPage() {
-  const [filter, setFilter] = useState("All");
+  const [status, setStatus] = useState("");
+  const [sortBy, setSortBy] = useState("");
   const { projects, loading, error, fetchProjects } = useProjectContext();
-  const filters = ["All", "In Progress", "Completed"];
+  const statuses = ["In Progress", "Completed"];
+
+  const handleSort = (e) => {
+    const [sort, order] = e.target.value.split("-");
+
+    setSortBy(e.target.value);
+    fetchProjects({ sortBy: sort, order });
+  };
 
   useEffect(() => {
-    fetchProjects({ status: filter });
-  }, [filter]);
+    fetchProjects({ status });
+  }, [status]);
 
   return (
     <>
@@ -34,19 +42,34 @@ function ProjectsPage() {
           />
         </form>
         <div className="col-md-3">
-          <select name="" className="form-select">
-            <option value="">Sort by: Latest</option>
+          <select
+            name=""
+            className="form-select"
+            value={sortBy}
+            onChange={handleSort}
+          >
+            <option value="">Sort by</option>
+            <option value="createdAt-desc">Latest</option>
+            <option value="createdAt-asc">Oldest</option>
+            <option value="name-asc">Name (A–Z)</option>
           </select>
         </div>
       </div>
 
       <div className="mb-3 fw-semibold border-bottom d-flex gap-4">
-        {filters.map((item) => (
+        <div
+          className={`pb-2 ${status === "" ? "text-info border-3 border-info border-bottom" : ""}`}
+          style={{ cursor: "pointer" }}
+          onClick={() => setStatus("")}
+        >
+          All
+        </div>
+        {statuses.map((item) => (
           <div
             key={item}
-            className={`pb-2 ${filter === item ? "text-info border-3 border-info border-bottom" : ""}`}
+            className={`pb-2 ${status === item ? "text-info border-3 border-info border-bottom" : ""}`}
             style={{ cursor: "pointer" }}
-            onClick={() => setFilter(item)}
+            onClick={() => setStatus(item)}
           >
             {item}
           </div>
