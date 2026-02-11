@@ -1,8 +1,13 @@
+import { useEffect } from "react";
 import useProjectContext from "../../context/ProjectContext";
 import ProjectCard from "./ProjectCard";
 
 function ProjectsSection() {
-  const { projects, loading, error } = useProjectContext();
+  const { fetchProjects, projects, loading, error } = useProjectContext();
+
+  useEffect(() => {
+    fetchProjects({ sortBy: "createdAt", order: "desc", limit: 3 });
+  }, []);
 
   return (
     <div className="mb-4">
@@ -45,7 +50,7 @@ function ProjectsSection() {
                   <div
                     key={project.id}
                     className="col-sm-6 col-lg-4 mb-2"
-                    style={{ height: "170px" }}
+                    style={{ height: "190px" }}
                   >
                     <ProjectCard project={project} />
                   </div>

@@ -23,10 +23,10 @@ function TaskCard({ task }) {
 
       <h5 className="text-truncate">{task.name}</h5>
 
-      <p className="text-muted line-clamp-3">
+      <div className="mb-2 text-muted">
         <span>Duo on: </span>
         <span>{formatDate(task.dueDate)}</span>
-      </p>
+      </div>
 
       {task.owners.length > 0 ? (
         <div className="d-flex align-items-center overflow-hidden">
