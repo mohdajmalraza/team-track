@@ -79,7 +79,20 @@ function ProjectsPage() {
         </button>
       </div>
 
-      <div className="row mb-3 d-flex justify-content-end align-items-center">
+      <div className="py-1 border-1 border-bottom d-flex flex-column-reverse flex-sm-row justify-content-between align-items-center gap-3 mb-3">
+        <div className="col-12 col-sm-9 fw-semibold d-flex gap-4">
+          {statuses.map((item) => (
+            <div
+              key={item}
+              className={`${status === item ? "text-nowrap text-info border-3 border-bottom border-info" : ""}`}
+              style={{ cursor: "pointer" }}
+              onClick={() => handleStatusChange(item)}
+            >
+              {item === "" ? "All" : item}
+            </div>
+          ))}
+        </div>
+
         <div className="col-12 col-sm-3">
           <select
             className="form-select"
@@ -94,28 +107,7 @@ function ProjectsPage() {
         </div>
       </div>
 
-      <div className="mb-3 fw-semibold border-bottom d-flex gap-4">
-        {statuses.map((item) => (
-          <div
-            key={item}
-            className={`pb-2 ${status === item ? "text-info border-3 border-info border-bottom" : ""}`}
-            style={{ cursor: "pointer" }}
-            onClick={() => handleStatusChange(item)}
-          >
-            {item === "" ? "All" : item}
-          </div>
-        ))}
-      </div>
-
       <div>
-        {/* {loading && (
-          <div className="py-4 text-center">
-            <div className="spinner-border text-dark" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        )} */}
-
         {loading && (
           <div className="row">
             {[...Array(6)].map((_, index) => (
