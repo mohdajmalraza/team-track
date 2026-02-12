@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useProjectContext from "../../context/ProjectContext";
-import ProjectCard from "./ProjectCard";
+import ProjectCard from "../common/ProjectCard";
 
 function ProjectsSection() {
   const { fetchProjects, projects, loading, error } = useProjectContext();

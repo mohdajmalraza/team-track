@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import ProjectCard from "../components/dashboard/ProjectCard";
 import useProjectContext from "../context/ProjectContext";
 import { useSearchParams } from "react-router-dom";
+import ProjectList from "../components/projectsPage/ProjectList";
+import ProjectCardSkeleton from "../components/projectsPage/ProjectCardSkeleton";
 
 function ProjectsPage() {
-  const [searchInput, setSearchInput] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const { projects, loading, error, fetchProjects } = useProjectContext();
 
   const status = searchParams.get("status") || "";
   const sort = searchParams.get("sort") || "";
-  const search = searchParams.get("search") || "";
 
   const statuses = ["", "In Progress", "Completed"];
 
@@ -50,31 +49,11 @@ function ProjectsPage() {
     });
   };
 
-  const handleSearchSubmit = async (e) => {
-    e.preventDefault();
-
-    setSearchParams((prev) => {
-      const newParams = new URLSearchParams(prev);
-
-      if (searchInput.trim()) {
-        newParams.set("search", searchInput.trim());
-      } else {
-        newParams.delete("search");
-      }
-
-      return newParams;
-    });
-  };
-
   useEffect(() => {
     const params = {};
 
     if (status) {
       params.status = status;
-    }
-
-    if (search) {
-      params.search = search;
     }
 
     if (sort && sortMap[sort]) {
@@ -100,16 +79,7 @@ function ProjectsPage() {
         </button>
       </div>
 
-      <div className="row mb-3 d-flex justify-content-between align-items-center">
-        <form onSubmit={handleSearchSubmit} className="mb-2 col-12 col-sm-6">
-          <input
-            type="text"
-            placeholder="Search projects..."
-            className="w-100 form-control"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
-        </form>
+      <div className="row mb-3 d-flex justify-content-end align-items-center">
         <div className="col-12 col-sm-3">
           <select
             className="form-select"
@@ -138,11 +108,25 @@ function ProjectsPage() {
       </div>
 
       <div>
-        {loading && (
+        {/* {loading && (
           <div className="py-4 text-center">
             <div className="spinner-border text-dark" role="status">
               <span className="visually-hidden">Loading...</span>
             </div>
+          </div>
+        )} */}
+
+        {loading && (
+          <div className="row">
+            {[...Array(6)].map((_, index) => (
+              <div
+                key={index}
+                className="col-sm-6 col-lg-4 mb-3"
+                style={{ height: "190px" }}
+              >
+                <ProjectCardSkeleton />
+              </div>
+            ))}
           </div>
         )}
 
@@ -155,17 +139,7 @@ function ProjectsPage() {
         {!loading && !error && (
           <>
             {projects.length > 0 ? (
-              <div className="row">
-                {projects.map((project) => (
-                  <div
-                    key={project.id}
-                    className="col-sm-6 col-lg-4 mb-3"
-                    style={{ height: "190px" }}
-                  >
-                    <ProjectCard project={project} />
-                  </div>
-                ))}
-              </div>
+              <ProjectList />
             ) : (
               <div className="text-danger text-center fw-semibold">
                 <p>No projects found</p>
