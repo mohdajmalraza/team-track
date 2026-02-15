@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import useProjectContext from "../../context/ProjectContext";
 import ProjectCard from "../common/ProjectCard";
 
@@ -7,13 +8,13 @@ function ProjectList() {
   return (
     <div className="row">
       {projects.map((project) => (
-        <div
+        <Link
           key={project.id}
-          className="col-sm-6 col-lg-4 mb-3"
-          style={{ height: "190px" }}
+          to={`/projects/${project.id}`}
+          className="col-sm-6 col-lg-4 text-decoration-none mb-3 project-link"
         >
           <ProjectCard project={project} />
-        </div>
+        </Link>
       ))}
     </div>
   );

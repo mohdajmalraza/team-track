@@ -1,5 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import useAuthContext from "./AuthContext";
+import { createContext, useContext, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
 
 const TaskContext = createContext();
@@ -8,8 +7,6 @@ const useTaskContext = () => useContext(TaskContext);
 export default useTaskContext;
 
 export function TaskProvider({ children }) {
-  const { isAuthenticated } = useAuthContext();
-
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,7 +24,7 @@ export function TaskProvider({ children }) {
       setLoading(true);
       setError(null);
 
-      const res = await axiosInstance.get("/tasks", {
+      const res = await axiosInstance.get("/api/tasks", {
         params: filters,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -36,7 +33,7 @@ export function TaskProvider({ children }) {
 
       setTasks(res.data.tasks);
     } catch (error) {
-      setError(error.response?.data?.message || "Falied to fetch tasks");
+      setError(error.response?.data?.message || "Failed to fetch tasks");
     } finally {
       setLoading(false);
     }
@@ -50,7 +47,7 @@ export function TaskProvider({ children }) {
     }
 
     try {
-      const res = await axiosInstance.post("/tasks", data, {
+      const res = await axiosInstance.post("/api/tasks", data, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -59,12 +56,6 @@ export function TaskProvider({ children }) {
       throw new Error(error.response?.data?.message || "Task creation failed");
     }
   };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchTasks();
-    }
-  }, [isAuthenticated]);
 
   return (
     <TaskContext.Provider

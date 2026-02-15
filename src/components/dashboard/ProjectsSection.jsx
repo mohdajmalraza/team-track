@@ -47,11 +47,7 @@ function ProjectsSection() {
             {projects.length > 0 ? (
               <div className="row">
                 {projects.slice(0, 3).map((project) => (
-                  <div
-                    key={project.id}
-                    className="col-sm-6 col-lg-4 mb-2"
-                    style={{ height: "190px" }}
-                  >
+                  <div key={project.id} className="col-sm-6 col-lg-4 mb-2">
                     <ProjectCard project={project} />
                   </div>
                 ))}

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
+import useAuthContext from "./AuthContext";
 
 const ProjectContext = createContext();
 
@@ -7,11 +8,12 @@ const useProjectContext = () => useContext(ProjectContext);
 export default useProjectContext;
 
 export function ProjectProvider({ children }) {
-  // const { isAuthenticated } = useAuthContext();
-
   const [projects, setProjects] = useState([]);
+  const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const { isAuthenticated } = useAuthContext();
 
   const fetchProjects = async (queryParams) => {
     const token = localStorage.getItem("token");
@@ -26,7 +28,7 @@ export function ProjectProvider({ children }) {
       setLoading(true);
       setError(null);
 
-      const res = await axiosInstance.get("/projects", {
+      const res = await axiosInstance.get("/api/projects", {
         params: queryParams,
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -47,7 +49,7 @@ export function ProjectProvider({ children }) {
     }
 
     try {
-      const res = await axiosInstance.post("/projects", data, {
+      const res = await axiosInstance.post("/api/projects", data, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -59,44 +61,47 @@ export function ProjectProvider({ children }) {
     }
   };
 
-  // const searchProjects = async (searchQuery) => {
-  //   const token = localStorage.getItem("token");
-  //   if (!token) {
-  //     setProjects([]);
-  //     setLoading(false);
-  //     return;
-  //   }
+  const fetchProjectById = async (id) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setLoading(false);
+      setProject(null);
+    }
 
-  //   try {
-  //     const res = await axiosInstance.get(`/projects/search`, {
-  //       params: { query: searchQuery },
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
+    try {
+      setLoading(true);
+      setError(null);
 
-  //     setProjects(res.data.projects);
-  //   } catch (error) {
-  //     setError(error.reponse?.data?.message || "Failed to search projects");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      const res = await axiosInstance.get(`/api/projects/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     fetchProjects({ sortBy: "createdAt", order: "desc", limit: 3 });
-  //   }
-  // }, [isAuthenticated]);
+      setProject(res.data.project);
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.message || "Failed to fetch the project",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchProjects();
+    }
+  }, [isAuthenticated]);
 
   return (
     <ProjectContext.Provider
       value={{
         projects,
+        project,
         loading,
         error,
         fetchProjects,
         createProject,
+        fetchProjectById,
       }}
     >
       {children}

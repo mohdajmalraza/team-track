@@ -1,6 +1,6 @@
 function ProjectCardSkeleton() {
   return (
-    <div className="card h-100 shadow-sm p-3">
+    <div className="card h-100 border-0 shadow-sm p-3">
       <div className="placeholder-glow">
         {/* Title */}
         <span className="placeholder placeholder-sm col-7 mb-3"></span>

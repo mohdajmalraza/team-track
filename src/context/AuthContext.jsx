@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
     }
 
     try {
-      const res = await axiosInstance.get("/auth/me", {
+      const res = await axiosInstance.get("/api/auth/me", {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
   };
 
   const signup = async ({ name, email, password }) => {
-    await axiosInstance.post("/auth/signup", { name, email, password });
+    await axiosInstance.post("/api/auth/signup", { name, email, password });
   };
 
   // auto-login after signup
@@ -44,7 +44,10 @@ export function AuthProvider({ children }) {
   // };
 
   const login = async (email, password) => {
-    const res = await axiosInstance.post("/auth/login", { email, password });
+    const res = await axiosInstance.post("/api/auth/login", {
+      email,
+      password,
+    });
 
     localStorage.setItem("token", res.data.token);
     await checkAuth(); // Validate token with backend and sync authenticated user state

@@ -27,7 +27,7 @@ export function UserProvider({ children }) {
       setLoading(true);
       setError(null);
 
-      const res = await axiosInstance.get("/users", {
+      const res = await axiosInstance.get("/api/users", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

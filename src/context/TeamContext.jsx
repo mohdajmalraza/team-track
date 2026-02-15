@@ -27,7 +27,7 @@ export function TeamProvider({ children }) {
       setLoading(true);
       setError(null);
 
-      const res = await axiosInstance.get("/teams", {
+      const res = await axiosInstance.get("/api/teams", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
