@@ -1,5 +1,5 @@
 import useProjectContext from "../../context/ProjectContext";
-import ProjectCardSkeleton from "./ProjectCardSkeleton";
+import CardSkeleton from "./CardSkeleton";
 import ProjectList from "./ProjectList";
 
 function ProjectContent() {
@@ -9,13 +9,9 @@ function ProjectContent() {
     <div>
       {loading && (
         <div className="row">
-          {[...Array(6)].map((_, index) => (
-            <div
-              key={index}
-              className="col-sm-6 col-lg-4 mb-3"
-              style={{ height: "190px" }}
-            >
-              <ProjectCardSkeleton />
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="col-sm-6 col-lg-4 mb-3">
+              <CardSkeleton />
             </div>
           ))}
         </div>

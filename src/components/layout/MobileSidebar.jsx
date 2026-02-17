@@ -1,10 +1,11 @@
+import useAuthContext from "../../context/AuthContext";
 import { NavLink } from "react-router-dom";
 import { MdOutlineDashboard } from "react-icons/md";
 import { GoProjectSymlink } from "react-icons/go";
+import { FaTasks } from "react-icons/fa";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { LiaChartBarSolid } from "react-icons/lia";
 import { LuSettings } from "react-icons/lu";
-import useAuthContext from "../../context/AuthContext";
 
 function MobileSidebar() {
   const { user } = useAuthContext();
@@ -41,6 +42,13 @@ function MobileSidebar() {
             <NavLink to="/projects" className={linkClass}>
               <GoProjectSymlink size={20} />
               <span>Projects</span>
+            </NavLink>
+          </li>
+
+          <li className="nav-item">
+            <NavLink to="/tasks" className={linkClass}>
+              <FaTasks size={20} />
+              <span>Tasks</span>
             </NavLink>
           </li>
 

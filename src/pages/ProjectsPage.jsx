@@ -1,5 +1,5 @@
-import ProjectsFilters from "../components/projectsPage/ProjectsFilters";
-import ProjectContent from "../components/projectsPage/ProjectContent";
+import ProjectsFilters from "../components/projects/ProjectsFilters";
+import ProjectContent from "../components/projects/ProjectContent";
 
 function ProjectsPage() {
   return (

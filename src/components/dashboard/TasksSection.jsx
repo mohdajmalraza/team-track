@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import useTaskContext from "../../context/TaskContext";
 import TaskCard from "./TaskCard";
+import CardSkeleton from "../projects/CardSkeleton";
+import { Link } from "react-router-dom";
 
 function TasksSection() {
   const [selectedStatus, setSelectedStatus] = useState("");
-  const { tasks, loading, error, fetchTasks } = useTaskContext();
+  const { taskList, isFetchingTasks, taskListError, getTasks } =
+    useTaskContext();
 
   useEffect(() => {
-    fetchTasks({ status: selectedStatus || undefined });
+    getTasks({ status: selectedStatus || undefined });
   }, [selectedStatus]);
 
   return (
@@ -41,32 +44,34 @@ function TasksSection() {
       </div>
 
       <div>
-        {loading && (
-          <div className="text-center">
-            <div className="spinner-grow text-info" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+        {isFetchingTasks && (
+          <div className="row">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="col-sm-6 col-lg-4 mb-3">
+                <CardSkeleton key={i} />
+              </div>
+            ))}
           </div>
         )}
 
-        {!loading && error && (
+        {!isFetchingTasks && taskListError && (
           <div className="text-center text-danger">
             <p className="fw-semibold">Something went wrong!</p>
           </div>
         )}
 
-        {!loading && !error && (
+        {!isFetchingTasks && !taskListError && (
           <>
-            {tasks.length > 0 ? (
+            {taskList.length > 0 ? (
               <div className="row">
-                {tasks.map((task) => (
-                  <div
+                {taskList.map((task) => (
+                  <Link
+                    to={`/tasks/${task.id}`}
                     key={task.id}
-                    className="col-sm-6 col-lg-4 mb-2"
-                    style={{ height: "170px" }}
+                    className="col-sm-6 col-lg-4 project-link text-decoration-none mb-3"
                   >
                     <TaskCard task={task} />
-                  </div>
+                  </Link>
                 ))}
               </div>
             ) : (

@@ -1,18 +1,14 @@
-import { formatDate } from "../../utility/utils";
+import { useNavigate } from "react-router-dom";
+import {
+  formatDate,
+  getPriorityBadge,
+  getStatusBadge,
+} from "../../utility/utils";
+import TaskTableSkeleton from "./TaskTableSkeleton";
+import { FaLongArrowAltRight } from "react-icons/fa";
 
 function TasksTable({ tasks, loading, error }) {
-  const getStatusBadge = (status) => {
-    switch (status?.toLowerCase()) {
-      case "completed":
-        return "text-success bg-success-subtle";
-      case "in progress":
-        return "text-warning bg-warning-subtle";
-      case "blocked":
-        return "text-danger bg-danger-subtle";
-      default:
-        return "text-dark bg-dark-subtle";
-    }
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="card shadow-sm border-0">
@@ -30,23 +26,21 @@ function TasksTable({ tasks, loading, error }) {
               <tr>
                 <th className="text-muted small">TASKS</th>
                 <th className="text-muted small">OWNER</th>
-                <th className="text-muted small">TAGS</th>
+                <th className="text-muted small">PRIORITY</th>
                 <th className="text-muted small">DUE ON</th>
                 <th className="text-muted small">STATUS</th>
+                <th className="text-muted small">VIEW</th>
               </tr>
             </thead>
 
             <tbody>
-              {loading &&
-                Array.from({ length: 5 }).map((_, index) => (
-                  <tr key={index}>
-                    <td colSpan="5">
-                      <div className="placeholder-glow">
-                        <span className="placeholder col-12"></span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+              {loading && (
+                <>
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <TaskTableSkeleton key={index} />
+                  ))}
+                </>
+              )}
 
               {!loading &&
                 !error &&
@@ -66,7 +60,7 @@ function TasksTable({ tasks, loading, error }) {
                         ))}
                     </td>
 
-                    <td>
+                    {/* <td>
                       {task.tags?.map((tag, i) => (
                         <span
                           key={i}
@@ -75,6 +69,14 @@ function TasksTable({ tasks, loading, error }) {
                           {tag}
                         </span>
                       ))}
+                    </td> */}
+
+                    <td>
+                      <span
+                        className={`w-100 badge me-1 ${getPriorityBadge(task?.priority)}`}
+                      >
+                        {task?.priority}
+                      </span>
                     </td>
 
                     <td className="fw-semibold small">
@@ -83,10 +85,19 @@ function TasksTable({ tasks, loading, error }) {
 
                     <td>
                       <span
-                        className={`badge rounded-pill ${getStatusBadge(task.status)}`}
+                        className={`w-100 badge rounded-pill ${getStatusBadge(task.status)}`}
                       >
                         {task.status}
                       </span>
+                    </td>
+
+                    <td>
+                      <button
+                        className="btn btn-sm btn-outline-info"
+                        onClick={() => navigate(`/tasks/${task.id}`)}
+                      >
+                        <FaLongArrowAltRight />
+                      </button>
                     </td>
                   </tr>
                 ))}

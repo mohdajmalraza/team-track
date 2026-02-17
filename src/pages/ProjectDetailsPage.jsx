@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import useProjectContext from "../context/ProjectContext";
-import TasksTable from "../components/projectDetailsPage/TasksTable";
-import TasksFilters from "../components/projectDetailsPage/TasksFilters";
+import TasksTable from "../components/projectDetails/TasksTable";
+import TasksFilters from "../components/projectDetails/TasksFilters";
 import useTaskContext from "../context/TaskContext";
 
 function ProjectDetailsPage() {
@@ -16,12 +16,8 @@ function ProjectDetailsPage() {
     fetchProjectById,
   } = useProjectContext();
 
-  const {
-    tasks,
-    loading: tasksLoading,
-    error: tasksError,
-    fetchTasks,
-  } = useTaskContext();
+  const { taskList, isFetchingTasks, taskListError, getTasks } =
+    useTaskContext();
 
   useEffect(() => {
     if (id) {
@@ -33,7 +29,7 @@ function ProjectDetailsPage() {
     if (id) {
       const paramsObject = Object.fromEntries(searchParams.entries());
 
-      fetchTasks({ project: id, ...paramsObject });
+      getTasks({ project: id, ...paramsObject });
     }
   }, [id, searchParams]);
 
@@ -42,10 +38,10 @@ function ProjectDetailsPage() {
       <main>
         <div className="mb-4">
           {projectLoading && (
-            <div className="py-5 text-center">
-              <div className="spinner-border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
+            <div className="placeholder-glow">
+              <div className="placeholder col-6"></div>
+              <div className="placeholder col-8"></div>
+              <div className="placeholder col-5"></div>
             </div>
           )}
 
@@ -63,7 +59,11 @@ function ProjectDetailsPage() {
 
         <TasksFilters />
 
-        <TasksTable tasks={tasks} loading={tasksLoading} error={tasksError} />
+        <TasksTable
+          tasks={taskList}
+          loading={isFetchingTasks}
+          error={taskListError}
+        />
       </main>
     </>
   );

@@ -1,4 +1,4 @@
-function ProjectCardSkeleton() {
+function CardSkeleton() {
   return (
     <div className="card h-100 border-0 shadow-sm p-3">
       <div className="placeholder-glow">
@@ -18,4 +18,4 @@ function ProjectCardSkeleton() {
   );
 }
 
-export default ProjectCardSkeleton;
+export default CardSkeleton;

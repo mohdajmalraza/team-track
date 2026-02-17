@@ -7,22 +7,31 @@ const useTaskContext = () => useContext(TaskContext);
 export default useTaskContext;
 
 export function TaskProvider({ children }) {
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // LIST STATE
+  const [taskList, setTaskList] = useState([]);
+  const [isFetchingTasks, setIsFetchingTasks] = useState(true);
+  const [taskListError, setTaskListError] = useState(null);
 
-  async function fetchTasks(filters) {
-    const token = localStorage.getItem("token");
+  // SINGLE TASK STATE
+  const [currentTask, setCurrentTask] = useState(null);
+  const [isFetchingTask, setIsFetchingTask] = useState(false);
+  const [currentTaskError, setCurrentTaskError] = useState(null);
 
+  // MUTATION STATE
+  const [isTaskMutating, setIsTaskMutating] = useState(false);
+
+  const token = localStorage.getItem("token");
+
+  async function getTasks(filters) {
     if (!token) {
-      setLoading(false);
-      setTasks([]);
+      setIsFetchingTasks(false);
+      setTaskList([]);
       return;
     }
 
     try {
-      setLoading(true);
-      setError(null);
+      setIsFetchingTasks(true);
+      setTaskListError(null);
 
       const res = await axiosInstance.get("/api/tasks", {
         params: filters,
@@ -31,17 +40,17 @@ export function TaskProvider({ children }) {
         },
       });
 
-      setTasks(res.data.tasks);
+      setTaskList(res.data?.tasks);
     } catch (error) {
-      setError(error.response?.data?.message || "Failed to fetch tasks");
+      setTaskListError(
+        error.response?.data?.message || "Failed to fetch tasks",
+      );
     } finally {
-      setLoading(false);
+      setIsFetchingTasks(false);
     }
   }
 
   const createTask = async (data) => {
-    const token = localStorage.getItem("token");
-
     if (!token) {
       return;
     }
@@ -51,15 +60,82 @@ export function TaskProvider({ children }) {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setTasks((prev) => [...prev, res.data.task]);
+      setTaskList((prev) => [...prev, res.data.task]);
     } catch (error) {
       throw new Error(error.response?.data?.message || "Task creation failed");
     }
   };
 
+  const getTaskById = async (taskId) => {
+    if (!token) {
+      return;
+    }
+
+    try {
+      setIsFetchingTask(true);
+      setCurrentTaskError(null);
+
+      const res = await axiosInstance.get(`/api/tasks/${taskId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setCurrentTask(res.data?.task);
+    } catch (error) {
+      setCurrentTaskError(
+        error.response?.data?.message || "Failed to get the task",
+      );
+    } finally {
+      setIsFetchingTask(false);
+    }
+  };
+
+  const updateTaskById = async (taskId) => {};
+
+  const updateTaskStatus = async (taskId, status) => {
+    if (!token) {
+      return;
+    }
+
+    try {
+      setIsTaskMutating(true);
+
+      const res = await axiosInstance.post(
+        `/api/tasks/${taskId}/status`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setCurrentTask(res.data?.task);
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.message || "Status updation failed",
+      );
+    } finally {
+      setIsTaskMutating(false);
+    }
+  };
+
   return (
     <TaskContext.Provider
-      value={{ tasks, loading, error, fetchTasks, createTask }}
+      value={{
+        taskList,
+        currentTask,
+        isFetchingTasks,
+        isFetchingTask,
+        isTaskMutating,
+        taskListError,
+        currentTaskError,
+        getTasks,
+        createTask,
+        getTaskById,
+        updateTaskStatus,
+      }}
     >
       {children}
     </TaskContext.Provider>

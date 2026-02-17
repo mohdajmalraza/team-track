@@ -58,6 +58,24 @@ function TasksFilters() {
         >
           Due Late
         </button>
+
+        {/* <button
+          className={`btn btn-sm rounded-4 text-nowrap ${
+            sort === "dueLate" ? "btn-dark" : "btn-outline-secondary"
+          }`}
+          onClick={() => updateParam("sort", "priority_LowToHigh")}
+        >
+          Priority Low-High
+        </button> */}
+
+        {/* <button
+          className={`btn btn-sm rounded-4 text-nowrap ${
+            sort === "dueLate" ? "btn-dark" : "btn-outline-secondary"
+          }`}
+          onClick={() => updateParam("sort", "priority_HighToLow")}
+        >
+          Priority High-Low
+        </button> */}
       </div>
 
       <div className="p-0 py-1 col-12 col-lg-4 d-flex justify-content-end align-items-center gap-3">

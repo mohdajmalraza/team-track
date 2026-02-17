@@ -11,7 +11,7 @@ function ProjectList() {
         <Link
           key={project.id}
           to={`/projects/${project.id}`}
-          className="col-sm-6 col-lg-4 text-decoration-none mb-3 project-link"
+          className="col-sm-6 col-lg-4 project-link text-decoration-none mb-3"
         >
           <ProjectCard project={project} />
         </Link>

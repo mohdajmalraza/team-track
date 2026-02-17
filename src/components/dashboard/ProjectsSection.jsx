@@ -1,6 +1,8 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import useProjectContext from "../../context/ProjectContext";
 import ProjectCard from "../common/ProjectCard";
+import CardSkeleton from "../projects/CardSkeleton";
 
 function ProjectsSection() {
   const { fetchProjects, projects, loading, error } = useProjectContext();
@@ -29,10 +31,12 @@ function ProjectsSection() {
 
       <div>
         {loading && (
-          <div className="text-center">
-            <div className="spinner-grow text-info" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+          <div className="row">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="col-sm-6 col-lg-4 mb-3">
+                <CardSkeleton key={i} />
+              </div>
+            ))}
           </div>
         )}
 
@@ -46,10 +50,14 @@ function ProjectsSection() {
           <>
             {projects.length > 0 ? (
               <div className="row">
-                {projects.slice(0, 3).map((project) => (
-                  <div key={project.id} className="col-sm-6 col-lg-4 mb-2">
+                {projects.map((project) => (
+                  <Link
+                    key={project.id}
+                    className="col-sm-6 col-lg-4 project-link text-decoration-none mb-2"
+                    to={`/projects/${project.id}`}
+                  >
                     <ProjectCard project={project} />
-                  </div>
+                  </Link>
                 ))}
               </div>
             ) : (
