@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
+import useAuthContext from "./AuthContext";
 
 const TaskContext = createContext();
 
@@ -7,6 +8,8 @@ const useTaskContext = () => useContext(TaskContext);
 export default useTaskContext;
 
 export function TaskProvider({ children }) {
+  // const { isAuthenticated } = useAuthContext();
+
   // LIST STATE
   const [taskList, setTaskList] = useState([]);
   const [isFetchingTasks, setIsFetchingTasks] = useState(true);
@@ -20,9 +23,9 @@ export function TaskProvider({ children }) {
   // MUTATION STATE
   const [isTaskMutating, setIsTaskMutating] = useState(false);
 
-  const token = localStorage.getItem("token");
-
   async function getTasks(filters) {
+    const token = localStorage.getItem("token");
+
     if (!token) {
       setIsFetchingTasks(false);
       setTaskList([]);
@@ -51,6 +54,8 @@ export function TaskProvider({ children }) {
   }
 
   const createTask = async (data) => {
+    const token = localStorage.getItem("token");
+
     if (!token) {
       return;
     }
@@ -67,6 +72,8 @@ export function TaskProvider({ children }) {
   };
 
   const getTaskById = async (taskId) => {
+    const token = localStorage.getItem("token");
+
     if (!token) {
       return;
     }
@@ -91,9 +98,9 @@ export function TaskProvider({ children }) {
     }
   };
 
-  const updateTaskById = async (taskId) => {};
-
   const updateTaskStatus = async (taskId, status) => {
+    const token = localStorage.getItem("token");
+
     if (!token) {
       return;
     }
@@ -101,7 +108,7 @@ export function TaskProvider({ children }) {
     try {
       setIsTaskMutating(true);
 
-      const res = await axiosInstance.post(
+      const res = await axiosInstance.patch(
         `/api/tasks/${taskId}/status`,
         { status },
         {
@@ -120,6 +127,14 @@ export function TaskProvider({ children }) {
       setIsTaskMutating(false);
     }
   };
+
+  const updateTaskById = async (taskId) => {};
+
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     isFetchingTasks();
+  //   }
+  // }, [isAuthenticated]);
 
   return (
     <TaskContext.Provider

@@ -1,16 +1,26 @@
-# React + Vite
+## 🧪 Demo Credentials
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+To explore the application without creating a new account, you can use the demo account below:
 
-Currently, two official plugins are available:
+**Email:** demo@teamtrack.com  
+**Password:** Demo@123
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+> ⚠️ This is a demo user account with pre-seeded projects, tasks, and team members for testing purposes only.
 
-## React Compiler
+## 🧪 Demo Access
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Want to quickly explore TeamTrack?
 
-## Expanding the ESLint configuration
+Use the demo account below:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Role | Email              | Password |
+| ---- | ------------------ | -------- |
+| User | demo@teamtrack.com | Demo@123 |
+
+This account includes:
+
+- ✅ Multiple sample projects
+- ✅ Tasks in different statuses (To Do, In Progress, Completed, Blocked)
+- ✅ Assigned team members
+
+> Note: The demo account is read-only for testing purposes.

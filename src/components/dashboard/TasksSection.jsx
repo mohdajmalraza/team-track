@@ -75,7 +75,7 @@ function TasksSection() {
                 ))}
               </div>
             ) : (
-              <div className="text-center text-danger">
+              <div className="alert alert-danger">
                 <p className="fw-semibold">No tasks found.</p>
               </div>
             )}

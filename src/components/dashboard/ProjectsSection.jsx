@@ -61,8 +61,8 @@ function ProjectsSection() {
                 ))}
               </div>
             ) : (
-              <div className="text-center text-danger">
-                <p className="fw-semibold">No project found.</p>
+              <div className="alert alert-danger">
+                <p className="fw-semibold">No projects found.</p>
               </div>
             )}
           </>
