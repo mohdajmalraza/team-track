@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useTaskContext from "../context/TaskContext";
 import { formatDate, getPriorityBadge, getStatusBadge } from "../utility/utils";
 import { toast } from "react-toastify";
+import ConfirmModal from "../components/common/ConfirmModal";
 
 const STATUS_FLOW = {
   "To Do": "In Progress",
@@ -12,6 +13,8 @@ const STATUS_FLOW = {
 };
 
 function TaskDetailsPage() {
+  const [showBlockModal, setShowBlockModal] = useState(false);
+
   const { id } = useParams();
   const {
     isFetchingTask,
@@ -51,11 +54,21 @@ function TaskDetailsPage() {
     }
   };
 
-  const handleBlockClick = async (id) => {
-    try {
-      await updateTaskStatus(id, "Blocked");
+  // const handleBlockClick = async (id) => {
+  //   try {
+  //     await updateTaskStatus(id, "Blocked");
 
+  //     toast.success(`Task blocked successfully`);
+  //   } catch (err) {
+  //     toast.error(err.message);
+  //   }
+  // };
+
+  const handleBlockConfirm = async () => {
+    try {
+      await updateTaskStatus(task.id, "Blocked");
       toast.success(`Task blocked successfully`);
+      setShowBlockModal(false);
     } catch (err) {
       toast.error(err.message);
     }
@@ -70,19 +83,6 @@ function TaskDetailsPage() {
   return (
     <>
       <main>
-        <div className="d-flex justify-content-between align-items-center">
-          <h4 className="m-0">Task Details</h4>
-          <button
-            className="btn btn-info fw-semibold text-white"
-            data-bs-toggle="modal"
-            data-bs-target="#newTaskModal"
-          >
-            Edit Details
-          </button>
-        </div>
-
-        <hr className="text-secondary" />
-
         {isFetchingTask && (
           <div>
             <div className="card px-3 py-3 mb-3 placeholder-glow">
@@ -109,19 +109,37 @@ function TaskDetailsPage() {
           <div className="alert alert-danger">{currentTaskError}</div>
         )}
 
-        {!isFetchingTask && task && (
+        {!isFetchingTask && !currentTaskError && task && (
           <div>
-            <div className="card px-3 py-3 border-0 shadow bg-white mb-3">
-              <div className="d-flex justify-content-between align-items-center">
-                <h4>{task?.name}</h4>
+            <div className="d-flex justify-content-between align-items-center">
+              <h4 className="m-0">Task Name</h4>
+
+              <div>
+                <button
+                  className="btn btn-sm btn-info fw-semibold text-white me-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#newTaskModal"
+                >
+                  Edit Details
+                </button>
+
                 {task?.status !== "Completed" && task?.status !== "Blocked" && (
                   <button
                     className="btn btn-sm btn-danger"
-                    onClick={() => handleBlockClick(task?.id)}
+                    // onClick={() => handleBlockClick(task?.id)}
+                    onClick={() => setShowBlockModal(true)}
                   >
                     Block Task
                   </button>
                 )}
+              </div>
+            </div>
+
+            <hr className="text-secondary" />
+
+            <div className="card px-3 py-3 border-0 shadow bg-white mb-3">
+              <div className="d-flex justify-content-between align-items-center">
+                <h4>{task?.name}</h4>
               </div>
 
               <div className="py-2">
@@ -166,7 +184,7 @@ function TaskDetailsPage() {
                   </div>
 
                   <div className="py-1 fw-semibold">
-                    {task?.owners.map((owner) => (
+                    {task?.owners?.map((owner) => (
                       <span
                         key={owner.id}
                         className="badge bg-secondary-subtle text-dark me-1"
@@ -177,7 +195,7 @@ function TaskDetailsPage() {
                   </div>
 
                   <div className="py-1 fw-semibold">
-                    {task?.tags.map((tag) => (
+                    {task?.tags?.map((tag) => (
                       <span
                         key={tag}
                         className="badge text-primary bg-primary-subtle me-1"
@@ -194,7 +212,7 @@ function TaskDetailsPage() {
               <button
                 className="col-4 fw-semibold text-white btn btn-info"
                 onClick={() => handleUpdateStatusClick(task.id, task.status)}
-                disabled={isTaskMutating}
+                disabled={isTaskMutating || isFetchingTask}
               >
                 {isTaskMutating
                   ? "Updating Status..."
@@ -203,6 +221,17 @@ function TaskDetailsPage() {
             </div>
           </div>
         )}
+
+        <ConfirmModal
+          show={showBlockModal}
+          title="Block Task?"
+          message="This task will be marked as blocked. You can resume it later."
+          confirmText="Yes, Block Task"
+          cancelText="Cancel"
+          onConfirm={handleBlockConfirm}
+          onCancel={() => setShowBlockModal(false)}
+          isLoading={isTaskMutating}
+        />
       </main>
     </>
   );

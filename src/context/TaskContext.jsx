@@ -8,7 +8,7 @@ const useTaskContext = () => useContext(TaskContext);
 export default useTaskContext;
 
 export function TaskProvider({ children }) {
-  // const { isAuthenticated } = useAuthContext();
+  const { token, isAuthenticated } = useAuthContext();
 
   // LIST STATE
   const [taskList, setTaskList] = useState([]);
@@ -24,13 +24,7 @@ export function TaskProvider({ children }) {
   const [isTaskMutating, setIsTaskMutating] = useState(false);
 
   async function getTasks(filters) {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      setIsFetchingTasks(false);
-      setTaskList([]);
-      return;
-    }
+    if (!token) return;
 
     try {
       setIsFetchingTasks(true);
@@ -43,7 +37,7 @@ export function TaskProvider({ children }) {
         },
       });
 
-      setTaskList(res.data?.tasks);
+      setTaskList(res.data?.tasks || []);
     } catch (error) {
       setTaskListError(
         error.response?.data?.message || "Failed to fetch tasks",
@@ -54,13 +48,11 @@ export function TaskProvider({ children }) {
   }
 
   const createTask = async (data) => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      return;
-    }
+    if (!token) return;
 
     try {
+      setIsTaskMutating(true);
+
       const res = await axiosInstance.post("/api/tasks", data, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -68,15 +60,13 @@ export function TaskProvider({ children }) {
       setTaskList((prev) => [...prev, res.data.task]);
     } catch (error) {
       throw new Error(error.response?.data?.message || "Task creation failed");
+    } finally {
+      setIsTaskMutating(false);
     }
   };
 
   const getTaskById = async (taskId) => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      return;
-    }
+    if (!token) return;
 
     try {
       setIsFetchingTask(true);
@@ -99,11 +89,7 @@ export function TaskProvider({ children }) {
   };
 
   const updateTaskStatus = async (taskId, status) => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      return;
-    }
+    if (!token) return;
 
     try {
       setIsTaskMutating(true);
@@ -130,11 +116,15 @@ export function TaskProvider({ children }) {
 
   const updateTaskById = async (taskId) => {};
 
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     isFetchingTasks();
-  //   }
-  // }, [isAuthenticated]);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setTaskList([]);
+      setCurrentTask(null);
+      return;
+    }
+
+    getTasks();
+  }, [isAuthenticated]);
 
   return (
     <TaskContext.Provider

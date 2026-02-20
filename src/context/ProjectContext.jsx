@@ -88,7 +88,8 @@ export function ProjectProvider({ children }) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetchProjects();
+      // fetchProjects();
+      fetchProjects({ sortBy: "createdAt", order: "desc", limit: 3 });
     }
   }, [isAuthenticated]);
 

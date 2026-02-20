@@ -8,25 +8,30 @@ export default useAuthContext;
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const checkAuth = async () => {
-    const token = localStorage.getItem("token");
+  // Validate token & fetch current user
+  const checkAuth = async (existingToken) => {
+    const authToken = existingToken || localStorage.getItem("token");
 
-    if (!token) {
+    if (!authToken) {
       setUser(null);
+      setToken(null);
       setIsLoading(false);
       return;
     }
 
     try {
       const res = await axiosInstance.get("/api/auth/me", {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${authToken}` },
       });
 
       setUser(res.data.user);
+      setToken(authToken);
     } catch (error) {
       setUser(null);
+      setToken(null);
       localStorage.removeItem("token");
     } finally {
       setIsLoading(false);
@@ -44,19 +49,24 @@ export function AuthProvider({ children }) {
   // };
 
   const login = async (email, password) => {
+    setIsLoading(true);
+
     const res = await axiosInstance.post("/api/auth/login", {
       email,
       password,
     });
 
-    localStorage.setItem("token", res.data.token);
-    await checkAuth(); // Validate token with backend and sync authenticated user state
+    const receivedToken = res.data.token;
+    localStorage.setItem("token", receivedToken);
+
+    await checkAuth(receivedToken); // Validate token with backend and sync authenticated user state
   };
 
   const logout = async () => {
     localStorage.removeItem("token");
-    setIsLoading(false);
     setUser(null);
+    setToken(null);
+    // setIsLoading(false);
   };
 
   useEffect(() => {
@@ -67,6 +77,7 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
+        token,
         isAuthenticated: !!user,
         isLoading,
         login,
