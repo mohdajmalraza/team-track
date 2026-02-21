@@ -3,7 +3,6 @@ import TopNavbar from "./TopNavbar";
 import MobileSidebar from "./MobileSidebar";
 import Sidebar from "./Sidebar";
 import NewProjectModal from "../modals/NewProjectModal";
-import NewTaskModal from "../modals/NewTaskModal";
 
 function DashboardLayout() {
   return (
@@ -20,7 +19,6 @@ function DashboardLayout() {
       </main>
 
       <NewProjectModal />
-      <NewTaskModal />
     </>
   );
 }

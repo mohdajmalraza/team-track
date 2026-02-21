@@ -60,17 +60,6 @@ function TasksTable({ tasks, loading, error }) {
                         ))}
                     </td>
 
-                    {/* <td>
-                      {task.tags?.map((tag, i) => (
-                        <span
-                          key={i}
-                          className="badge bg-primary-subtle text-primary me-1"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </td> */}
-
                     <td>
                       <span
                         className={`w-100 badge me-1 ${getPriorityBadge(task?.priority)}`}
@@ -103,8 +92,12 @@ function TasksTable({ tasks, loading, error }) {
                 ))}
 
               {!loading && !error && tasks?.length === 0 && (
-                <tr colSpan="5" className="text-center py-4 text-muted">
-                  <td>No tasks found.</td>
+                <tr>
+                  <td colSpan="6" className="pt-4">
+                    <div className="w-100 alert alert-warning text-center fw-semibold">
+                      No tasks found for this project.
+                    </div>
+                  </td>
                 </tr>
               )}
             </tbody>

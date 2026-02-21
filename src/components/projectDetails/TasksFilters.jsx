@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import TaskFormModal from "../modals/TaskFormModal";
 
 const TASK_STATUSES = ["To Do", "In Progress", "Completed", "Blocked"];
 
 function TasksFilters() {
+  const [showTaskFormModal, setShowTaskFormModal] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const status = searchParams.get("status") || "";
@@ -97,13 +100,17 @@ function TasksFilters() {
         <div className="">
           <button
             className="btn btn-sm btn-info text-nowrap text-white fw-semibold"
-            data-bs-toggle="modal"
-            data-bs-target="#newTaskModal"
+            onClick={() => setShowTaskFormModal(true)}
           >
             + New Task
           </button>
         </div>
       </div>
+
+      <TaskFormModal
+        show={showTaskFormModal}
+        onClose={() => setShowTaskFormModal(false)}
+      />
     </div>
   );
 }

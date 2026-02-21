@@ -114,7 +114,27 @@ export function TaskProvider({ children }) {
     }
   };
 
-  const updateTaskById = async (taskId) => {};
+  const updateTask = async (taskId, data) => {
+    if (!token) {
+      return;
+    }
+
+    try {
+      setIsTaskMutating(true);
+
+      const res = await axiosInstance.patch(`/api/tasks/${taskId}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setCurrentTask(res.data?.task);
+    } catch (error) {
+      throw new Error(error.response?.data?.message || "Task updation failed");
+    } finally {
+      setIsTaskMutating(false);
+    }
+  };
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -140,6 +160,7 @@ export function TaskProvider({ children }) {
         createTask,
         getTaskById,
         updateTaskStatus,
+        updateTask,
       }}
     >
       {children}

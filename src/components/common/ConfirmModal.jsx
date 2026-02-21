@@ -14,26 +14,26 @@ function ConfirmModal({
     <>
       <div className="modal-backdrop fade show"></div>
 
-      <div class="modal fade show d-block">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">{title}</h5>
+      <div className="modal fade show d-block">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">{title}</h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 onClick={onCancel}
               ></button>
             </div>
 
-            <div class="modal-body">
+            <div className="modal-body">
               <p>{message}</p>
             </div>
 
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 onClick={onCancel}
                 disabled={isLoading}
               >
@@ -42,7 +42,7 @@ function ConfirmModal({
 
               <button
                 type="button"
-                class="btn btn-danger"
+                className="btn btn-danger"
                 onClick={onConfirm}
                 disabled={isLoading}
               >
