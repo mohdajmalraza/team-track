@@ -51,8 +51,6 @@ export function TaskProvider({ children }) {
     if (!token) return;
 
     try {
-      setIsTaskMutating(true);
-
       const res = await axiosInstance.post("/api/tasks", data, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -60,8 +58,6 @@ export function TaskProvider({ children }) {
       setTaskList((prev) => [...prev, res.data.task]);
     } catch (error) {
       throw new Error(error.response?.data?.message || "Task creation failed");
-    } finally {
-      setIsTaskMutating(false);
     }
   };
 

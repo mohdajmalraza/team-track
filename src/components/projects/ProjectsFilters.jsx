@@ -10,7 +10,7 @@ const SORT_MAP = {
 const STATUSES = ["", "In Progress", "Completed"];
 
 function ProjectsFilters() {
-  const { fetchProjects } = useProjectContext();
+  const { getProjects } = useProjectContext();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const status = searchParams.get("status") || "";
@@ -59,7 +59,7 @@ function ProjectsFilters() {
       params.order = config.order;
     }
 
-    fetchProjects(params);
+    getProjects(params);
   }, [status, sort]);
 
   return (

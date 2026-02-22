@@ -1,9 +1,6 @@
 import { toast } from "react-toastify";
-import {
-  formatDate,
-  getPriorityBadge,
-  getStatusBadge,
-} from "../../utility/utils";
+import { getPriorityBadge, getStatusBadge } from "../../utility/uiUtils";
+import { formatDate } from "../../utility/dateUtils";
 import useTaskContext from "../../context/TaskContext";
 
 const STATUS_FLOW = {

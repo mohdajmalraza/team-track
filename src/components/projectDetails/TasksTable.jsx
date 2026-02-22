@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import {
-  formatDate,
-  getPriorityBadge,
-  getStatusBadge,
-} from "../../utility/utils";
+import { getPriorityBadge, getStatusBadge } from "../../utility/uiUtils";
+import { formatDate } from "../../utility/dateUtils";
 import TaskTableSkeleton from "./TaskTableSkeleton";
 import { FaLongArrowAltRight } from "react-icons/fa";
 

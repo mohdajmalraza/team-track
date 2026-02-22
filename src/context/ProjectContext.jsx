@@ -8,19 +8,18 @@ const useProjectContext = () => useContext(ProjectContext);
 export default useProjectContext;
 
 export function ProjectProvider({ children }) {
+  const { token, isAuthenticated } = useAuthContext();
+
   const [projects, setProjects] = useState([]);
-  const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { isAuthenticated } = useAuthContext();
+  const [project, setProject] = useState(null);
 
-  const fetchProjects = async (queryParams) => {
-    const token = localStorage.getItem("token");
+  const [isProjectMutating, setIsProjectMutating] = useState(false);
 
+  const getProjects = async (queryParams) => {
     if (!token) {
-      setLoading(false);
-      setProjects([]);
       return;
     }
 
@@ -42,13 +41,13 @@ export function ProjectProvider({ children }) {
   };
 
   const createProject = async (data) => {
-    const token = localStorage.getItem("token");
-
     if (!token) {
       return;
     }
 
     try {
+      setIsProjectMutating(true);
+
       const res = await axiosInstance.post("/api/projects", data, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -56,16 +55,16 @@ export function ProjectProvider({ children }) {
       setProjects((prev) => [...prev, res.data.project]);
     } catch (error) {
       throw new Error(
-        error.response?.data?.message || "Project creation failed",
+        error.response?.data?.message || "Unable to create project",
       );
+    } finally {
+      setIsProjectMutating(false);
     }
   };
 
-  const fetchProjectById = async (id) => {
-    const token = localStorage.getItem("token");
+  const getProjectById = async (id) => {
     if (!token) {
-      setLoading(false);
-      setProject(null);
+      return;
     }
 
     try {
@@ -86,11 +85,45 @@ export function ProjectProvider({ children }) {
     }
   };
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      // fetchProjects();
-      fetchProjects({ sortBy: "createdAt", order: "desc", limit: 3 });
+  const updateProject = async (id, data) => {
+    if (!token) {
+      return;
     }
+
+    try {
+      setIsProjectMutating(true);
+
+      const res = await axiosInstance.patch(`/api/projects/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setProjects((prev) =>
+        prev.map((proj) => (proj.id === id ? res.data.project : proj)),
+      );
+
+      setProject(res.data?.project);
+
+      return res.data.project;
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.message || "Unable to update project",
+      );
+    } finally {
+      setIsProjectMutating(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setProjects([]);
+      setProject(null);
+      return;
+    }
+
+    // getProjects();
+    getProjects({ sortBy: "createdAt", order: "desc", limit: 3 });
   }, [isAuthenticated]);
 
   return (
@@ -99,10 +132,12 @@ export function ProjectProvider({ children }) {
         projects,
         project,
         loading,
+        isProjectMutating,
         error,
-        fetchProjects,
+        getProjects,
         createProject,
-        fetchProjectById,
+        getProjectById,
+        updateProject,
       }}
     >
       {children}

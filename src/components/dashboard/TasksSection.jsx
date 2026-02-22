@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import useTaskContext from "../../context/TaskContext";
 import TaskCard from "./TaskCard";
 import CardSkeleton from "../projects/CardSkeleton";
-import { Link } from "react-router-dom";
 
 function TasksSection() {
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -67,13 +66,9 @@ function TasksSection() {
             {taskList.length > 0 ? (
               <div className="row">
                 {taskList.map((task) => (
-                  <Link
-                    to={`/tasks/${task.id}`}
-                    key={task.id}
-                    className="col-sm-6 col-lg-4 project-link text-decoration-none mb-3"
-                  >
+                  <div key={task.id} className="col-sm-6 col-lg-4 mb-3">
                     <TaskCard task={task} />
-                  </Link>
+                  </div>
                 ))}
               </div>
             ) : (

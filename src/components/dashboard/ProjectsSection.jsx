@@ -1,14 +1,15 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import useProjectContext from "../../context/ProjectContext";
 import ProjectCard from "../common/ProjectCard";
 import CardSkeleton from "../projects/CardSkeleton";
+import ProjectFormModal from "../modals/ProjectFormModal";
 
 function ProjectsSection() {
-  const { fetchProjects, projects, loading, error } = useProjectContext();
+  const [showProjectFormModal, setShowProjectFormModal] = useState(false);
+  const { getProjects, projects, loading, error } = useProjectContext();
 
   useEffect(() => {
-    fetchProjects({ sortBy: "createdAt", order: "desc", limit: 3 });
+    getProjects({ sortBy: "createdAt", order: "desc", limit: 3 });
   }, []);
 
   return (
@@ -21,8 +22,7 @@ function ProjectsSection() {
         <div>
           <button
             className="btn btn-info fw-semibold text-white"
-            data-bs-toggle="modal"
-            data-bs-target="#newProjectModal"
+            onClick={() => setShowProjectFormModal(true)}
           >
             + New Project
           </button>
@@ -51,13 +51,9 @@ function ProjectsSection() {
             {projects.length > 0 ? (
               <div className="row">
                 {projects.map((project) => (
-                  <Link
-                    key={project.id}
-                    className="col-sm-6 col-lg-4 project-link text-decoration-none mb-2"
-                    to={`/projects/${project.id}`}
-                  >
+                  <div key={project.id} className="col-sm-6 col-lg-4 mb-2">
                     <ProjectCard project={project} />
-                  </Link>
+                  </div>
                 ))}
               </div>
             ) : (
@@ -68,6 +64,11 @@ function ProjectsSection() {
           </>
         )}
       </div>
+
+      <ProjectFormModal
+        show={showProjectFormModal}
+        onClose={() => setShowProjectFormModal(false)}
+      />
     </div>
   );
 }

@@ -1,7 +1,11 @@
+import { useState } from "react";
 import ProjectsFilters from "../components/projects/ProjectsFilters";
 import ProjectContent from "../components/projects/ProjectContent";
+import ProjectFormModal from "../components/modals/ProjectFormModal";
 
 function ProjectsPage() {
+  const [showProjectFormModal, setShowProjectFormModal] = useState(false);
+
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -9,8 +13,7 @@ function ProjectsPage() {
 
         <button
           className="btn btn-info fw-semibold text-white"
-          data-bs-toggle="modal"
-          data-bs-target="#newProjectModal"
+          onClick={() => setShowProjectFormModal(true)}
         >
           + New Project
         </button>
@@ -18,6 +21,11 @@ function ProjectsPage() {
 
       <ProjectsFilters />
       <ProjectContent />
+
+      <ProjectFormModal
+        show={showProjectFormModal}
+        onClose={() => setShowProjectFormModal(false)}
+      />
     </>
   );
 }

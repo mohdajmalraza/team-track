@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import useProjectContext from "../context/ProjectContext";
 import TasksTable from "../components/projectDetails/TasksTable";
 import TasksFilters from "../components/projectDetails/TasksFilters";
 import useTaskContext from "../context/TaskContext";
+import ProjectFormModal from "../components/modals/ProjectFormModal";
 
 function ProjectDetailsPage() {
+  const [showProjectFormModal, setShowProjectFormModal] = useState(false);
   const { id } = useParams();
   const [searchParams] = useSearchParams();
 
@@ -13,7 +15,7 @@ function ProjectDetailsPage() {
     project,
     loading: projectLoading,
     error: projectError,
-    fetchProjectById,
+    getProjectById,
   } = useProjectContext();
 
   const { taskList, isFetchingTasks, taskListError, getTasks } =
@@ -21,7 +23,7 @@ function ProjectDetailsPage() {
 
   useEffect(() => {
     if (id) {
-      fetchProjectById(id);
+      getProjectById(id);
     }
   }, [id]);
 
@@ -50,10 +52,20 @@ function ProjectDetailsPage() {
           )}
 
           {!projectLoading && !projectError && project && (
-            <>
-              <h3 className="fw-bold">{project.name}</h3>
-              <p className="col-md-8 text-muted">{project.description}</p>
-            </>
+            <div className="d-flex justify-content-between">
+              <div>
+                <h3 className="fw-bold">{project.name}</h3>
+                <p className="col-md-8 text-muted">{project.description}</p>
+              </div>
+              <div>
+                <button
+                  className="btn btn-sm btn-info fw-semibold text-white me-2"
+                  onClick={() => setShowProjectFormModal(true)}
+                >
+                  Edit Details
+                </button>
+              </div>
+            </div>
           )}
         </div>
 
@@ -63,6 +75,13 @@ function ProjectDetailsPage() {
           tasks={taskList}
           loading={isFetchingTasks}
           error={taskListError}
+        />
+
+        <ProjectFormModal
+          show={showProjectFormModal}
+          mode="edit"
+          projectToEdit={project}
+          onClose={() => setShowProjectFormModal(false)}
         />
       </main>
     </>

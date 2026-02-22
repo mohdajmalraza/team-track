@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import TopNavbar from "./TopNavbar";
 import MobileSidebar from "./MobileSidebar";
 import Sidebar from "./Sidebar";
-import NewProjectModal from "../modals/NewProjectModal";
 
 function DashboardLayout() {
   return (
@@ -17,8 +16,6 @@ function DashboardLayout() {
           <Outlet />
         </div>
       </main>
-
-      <NewProjectModal />
     </>
   );
 }

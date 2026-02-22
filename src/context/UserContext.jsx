@@ -14,7 +14,7 @@ export function UserProvider({ children }) {
 
   const { isAuthenticated } = useAuthContext();
 
-  const fetchUser = async () => {
+  const getUser = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -43,7 +43,7 @@ export function UserProvider({ children }) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetchUser();
+      getUser();
     }
   }, [isAuthenticated]);
 

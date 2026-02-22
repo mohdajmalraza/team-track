@@ -8,18 +8,14 @@ const useTeamContext = () => useContext(TeamContext);
 export default useTeamContext;
 
 export function TeamProvider({ children }) {
+  const { token, isAuthenticated } = useAuthContext();
+
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { isAuthenticated } = useAuthContext();
-
-  const fetchTeams = async () => {
-    const token = localStorage.getItem("token");
-
+  const getTeams = async () => {
     if (!token) {
-      setLoading(false);
-      setTeams([]);
       return;
     }
 
@@ -42,9 +38,12 @@ export function TeamProvider({ children }) {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchTeams();
+    if (!isAuthenticated) {
+      setTeams([]);
+      return;
     }
+
+    getTeams();
   }, [isAuthenticated]);
 
   return (
