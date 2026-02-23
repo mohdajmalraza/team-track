@@ -136,10 +136,7 @@ export function TaskProvider({ children }) {
     if (!isAuthenticated) {
       setTaskList([]);
       setCurrentTask(null);
-      return;
     }
-
-    getTasks();
   }, [isAuthenticated]);
 
   return (

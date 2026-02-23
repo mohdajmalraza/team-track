@@ -30,7 +30,6 @@ function ProjectDetailsPage() {
   useEffect(() => {
     if (id) {
       const paramsObject = Object.fromEntries(searchParams.entries());
-
       getTasks({ project: id, ...paramsObject });
     }
   }, [id, searchParams]);

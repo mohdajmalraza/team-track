@@ -5,11 +5,12 @@ import CardSkeleton from "../projects/CardSkeleton";
 import ProjectFormModal from "../modals/ProjectFormModal";
 
 function ProjectsSection() {
+  const { recentProjects, loading, error, getRecentProjects } =
+    useProjectContext();
   const [showProjectFormModal, setShowProjectFormModal] = useState(false);
-  const { getProjects, projects, loading, error } = useProjectContext();
 
   useEffect(() => {
-    getProjects({ sortBy: "createdAt", order: "desc", limit: 3 });
+    getRecentProjects();
   }, []);
 
   return (
@@ -48,9 +49,9 @@ function ProjectsSection() {
 
         {!loading && !error && (
           <>
-            {projects.length > 0 ? (
+            {recentProjects.length > 0 ? (
               <div className="row">
-                {projects.map((project) => (
+                {recentProjects.map((project) => (
                   <div key={project.id} className="col-sm-6 col-lg-4 mb-2">
                     <ProjectCard project={project} />
                   </div>

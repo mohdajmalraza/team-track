@@ -48,7 +48,7 @@ function TaskDetailsPage() {
               </div>
             </div>
 
-            <div className="row placeholder-glow">
+            <div className="row m-0 placeholder-glow">
               <div className="py-2 card">
                 <h5 className="card-header placeholder col-2"></h5>
 

@@ -15,7 +15,6 @@ function TasksSection() {
   return (
     <div className="mb-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        {/* <div className="col-6 col-sm-6 col-md-5 col-lg-4 d-flex flex-column flex-sm-row"> */}
         <h4 className="me-2 text-nowrap">My Tasks</h4>
 
         <div className="col-md-3">
@@ -31,17 +30,6 @@ function TasksSection() {
             <option value="Blocked">Blocked</option>
           </select>
         </div>
-        {/* </div> */}
-
-        {/* <div>
-          <button
-            className="btn btn-info fw-semibold text-white"
-            data-bs-toggle="modal"
-            data-bs-target="#newTaskModal"
-          >
-            + New Task
-          </button>
-        </div> */}
       </div>
 
       <div>
@@ -49,7 +37,7 @@ function TasksSection() {
           <div className="row">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="col-sm-6 col-lg-4 mb-3">
-                <CardSkeleton key={i} />
+                <CardSkeleton />
               </div>
             ))}
           </div>

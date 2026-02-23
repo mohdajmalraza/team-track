@@ -14,9 +14,32 @@ export function ProjectProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [recentProjects, setRecentProjects] = useState([]);
   const [project, setProject] = useState(null);
 
   const [isProjectMutating, setIsProjectMutating] = useState(false);
+
+  const getRecentProjects = async () => {
+    if (!token) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const res = await axiosInstance.get("/api/projects", {
+        params: { sortBy: "createdAt", order: "desc", limit: 3 },
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setRecentProjects(res.data.projects);
+    } catch (error) {
+      setError(error.response?.data?.message || "Project fetching failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getProjects = async (queryParams) => {
     if (!token) {
@@ -117,24 +140,23 @@ export function ProjectProvider({ children }) {
 
   useEffect(() => {
     if (!isAuthenticated) {
+      setRecentProjects([]);
       setProjects([]);
       setProject(null);
-      return;
     }
-
-    // getProjects();
-    getProjects({ sortBy: "createdAt", order: "desc", limit: 3 });
   }, [isAuthenticated]);
 
   return (
     <ProjectContext.Provider
       value={{
         projects,
+        recentProjects,
         project,
         loading,
         isProjectMutating,
         error,
         getProjects,
+        getRecentProjects,
         createProject,
         getProjectById,
         updateProject,
