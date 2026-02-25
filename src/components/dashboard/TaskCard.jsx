@@ -43,7 +43,7 @@ function TaskCard({ task }) {
                 >
                   {owner.name.split(" ").map((w) => w.charAt(0))}
                 </span>
-                <span className="pe-1">{`${owner.name} `}</span>
+                <span className="pe-1 text-nowrap">{`${owner.name} `}</span>
               </div>
             ))}
           </div>

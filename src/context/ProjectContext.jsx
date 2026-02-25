@@ -75,7 +75,8 @@ export function ProjectProvider({ children }) {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setProjects((prev) => [...prev, res.data.project]);
+      setRecentProjects((prev) => [res.data?.project, ...prev].slice(0, 3));
+      setProjects((prev) => [...prev, res.data?.project]);
     } catch (error) {
       throw new Error(
         error.response?.data?.message || "Unable to create project",

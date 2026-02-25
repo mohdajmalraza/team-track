@@ -88,7 +88,11 @@ function ProjectFormModal({
                 </div>
               )}
 
-              <form>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                }}
+              >
                 <div className="mb-3">
                   <label className="form-label">Project Name</label>
                   <span className="text-danger fw-semibold">*</span>

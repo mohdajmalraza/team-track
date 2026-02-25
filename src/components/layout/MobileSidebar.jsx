@@ -17,7 +17,9 @@ function MobileSidebar() {
     <div
       className="offcanvas offcanvas-start w-50 fw-semibold bg-primary-subtle"
       tabIndex="-1"
+      data-bs-scroll="true"
       id="mobileSidebar"
+      aria-labelledby="mobileSidebarLabel"
     >
       <div className="offcanvas-body">
         <div className="mb-3 d-flex gap-1 align-items-center">

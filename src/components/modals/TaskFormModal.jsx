@@ -6,7 +6,7 @@ import useUserContext from "../../context/UserContext";
 import useTaskContext from "../../context/TaskContext";
 
 function TaskFormModal({ show, mode = "create", taskToEdit = null, onClose }) {
-  const { projects } = useProjectContext();
+  const { projects, getProjects } = useProjectContext();
   const { teams } = useTeamContext();
   const { users } = useUserContext();
   const { createTask, updateTask } = useTaskContext();
@@ -133,6 +133,12 @@ function TaskFormModal({ show, mode = "create", taskToEdit = null, onClose }) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (show && !projects.length) {
+      getProjects();
+    }
+  }, [show]);
 
   useEffect(() => {
     if (mode === "edit" && taskToEdit) {

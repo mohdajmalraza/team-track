@@ -59,7 +59,7 @@ function ProjectsSection() {
               </div>
             ) : (
               <div className="alert alert-danger">
-                <p className="fw-semibold">No projects found.</p>
+                <p className="py-2 m-0 fw-semibold">No projects found.</p>
               </div>
             )}
           </>

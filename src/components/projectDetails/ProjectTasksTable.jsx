@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { getPriorityBadge, getStatusBadge } from "../../utility/uiUtils";
 import { formatDate } from "../../utility/dateUtils";
-import TaskTableSkeleton from "./TaskTableSkeleton";
+import TaskTableSkeleton from "../common/TaskTableSkeleton";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
-function TasksTable({ tasks, loading, error }) {
+function ProjectTasksTable({ tasks, loading, error }) {
   const navigate = useNavigate();
 
   return (
@@ -21,8 +21,9 @@ function TasksTable({ tasks, loading, error }) {
           <table className="table align-middle mb-0">
             <thead className="table-info">
               <tr>
-                <th className="text-muted small">TASKS</th>
+                <th className="text-muted small">TASK</th>
                 <th className="text-muted small">OWNER</th>
+                <th className="text-muted small">CREATED ON</th>
                 <th className="text-muted small">PRIORITY</th>
                 <th className="text-muted small">DUE ON</th>
                 <th className="text-muted small">STATUS</th>
@@ -55,6 +56,10 @@ function TasksTable({ tasks, loading, error }) {
                             {owner.name}
                           </span>
                         ))}
+                    </td>
+
+                    <td className="fw-semibold small">
+                      {formatDate(task?.createdAt)}
                     </td>
 
                     <td>
@@ -90,7 +95,7 @@ function TasksTable({ tasks, loading, error }) {
 
               {!loading && !error && tasks?.length === 0 && (
                 <tr>
-                  <td colSpan="6" className="pt-4">
+                  <td colSpan="7" className="pt-4">
                     <div className="w-100 alert alert-warning text-center fw-semibold">
                       No tasks found for this project.
                     </div>
@@ -105,4 +110,4 @@ function TasksTable({ tasks, loading, error }) {
   );
 }
 
-export default TasksTable;
+export default ProjectTasksTable;

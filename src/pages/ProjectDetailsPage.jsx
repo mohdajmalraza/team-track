@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import useProjectContext from "../context/ProjectContext";
-import TasksTable from "../components/projectDetails/TasksTable";
-import TasksFilters from "../components/projectDetails/TasksFilters";
+import ProjectTasksTable from "../components/projectDetails/ProjectTasksTable";
+import TasksFilters from "../components/common/TasksFilters";
 import useTaskContext from "../context/TaskContext";
 import ProjectFormModal from "../components/modals/ProjectFormModal";
 
@@ -51,18 +51,24 @@ function ProjectDetailsPage() {
           )}
 
           {!projectLoading && !projectError && project && (
-            <div className="d-flex justify-content-between">
-              <div>
+            <div className="row flex-column align-items-center">
+              <div className="d-flex justify-content-between">
                 <h3 className="fw-bold">{project.name}</h3>
-                <p className="col-md-8 text-muted">{project.description}</p>
+
+                <div>
+                  <button
+                    className="btn btn-sm btn-info fw-semibold text-white text-nowrap me-2"
+                    onClick={() => setShowProjectFormModal(true)}
+                  >
+                    Edit Details
+                  </button>
+                </div>
               </div>
-              <div>
-                <button
-                  className="btn btn-sm btn-info fw-semibold text-white me-2"
-                  onClick={() => setShowProjectFormModal(true)}
-                >
-                  Edit Details
-                </button>
+
+              <div className="col-12">
+                <p className="col-sm-10 col-lg-8 text-muted">
+                  {project.description}
+                </p>
               </div>
             </div>
           )}
@@ -70,7 +76,7 @@ function ProjectDetailsPage() {
 
         <TasksFilters />
 
-        <TasksTable
+        <ProjectTasksTable
           tasks={taskList}
           loading={isFetchingTasks}
           error={taskListError}

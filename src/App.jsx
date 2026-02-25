@@ -9,18 +9,19 @@ import { UserProvider } from "./context/UserContext.jsx";
 import { ProjectProvider } from "./context/ProjectContext.jsx";
 import { TaskProvider } from "./context/TaskContext.jsx";
 import { TeamProvider } from "./context/TeamContext.jsx";
+import RootRedirect from "./routes/RootRedirect.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
-import DashboardPage from "./pages/DashboardPage.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import RootRedirect from "./routes/RootRedirect.jsx";
 import DashboardLayout from "./components/layout/DashboardLayout.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
 import ProjectsPage from "./pages/ProjectsPage.jsx";
+import ProjectDetailsPage from "./pages/ProjectDetailsPage.jsx";
+import TasksPage from "./pages/TasksPage.jsx";
+import TaskDetailsPage from "./pages/TaskDetailsPage.jsx";
 import TeamsPage from "./pages/TeamsPage.jsx";
 import ReportsPage from "./pages/ReportsPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
-import ProjectDetailsPage from "./pages/ProjectDetailsPage.jsx";
-import TaskDetailsPage from "./pages/TaskDetailsPage.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <RootRedirect /> },
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
       { path: "/dashboard", element: <DashboardPage /> },
       { path: "/projects", element: <ProjectsPage /> },
       { path: "/projects/:id", element: <ProjectDetailsPage /> },
+      { path: "/tasks", element: <TasksPage /> },
       { path: "/tasks/:id", element: <TaskDetailsPage /> },
       { path: "/teams", element: <TeamsPage /> },
       { path: "/reports", element: <ReportsPage /> },

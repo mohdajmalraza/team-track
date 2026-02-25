@@ -23,6 +23,7 @@ function TopNavbar() {
               className="btn btn-sm btn-outline-info "
               data-bs-toggle="offcanvas"
               data-bs-target="#mobileSidebar"
+              aria-controls="mobileSidebar"
             >
               <GiHamburgerMenu size={20} />
             </button>

@@ -91,15 +91,23 @@ function TaskDetailsMeta({
       <div className="card border-0 shadow bg-white mb-3">
         <h5 className="card-header">Details</h5>
         <div className="card-body row">
-          <div className="col-md-2">
-            <div className="py-1 fw-semibold text-muted">Priority:</div>
-            <div className="py-1 fw-semibold text-muted">Due Date:</div>
-            <div className="py-1 fw-semibold text-muted">Assigned Team:</div>
-            <div className="py-1 fw-semibold text-muted">Assigned To:</div>
-            <div className="py-1 fw-semibold text-muted">Tags:</div>
+          <div className="col-4 col-sm-3 col-md-2 small">
+            <div className="py-1 fw-semibold text-muted text-nowrap">
+              Priority:
+            </div>
+            <div className="py-1 fw-semibold text-muted text-nowrap">
+              Due Date:
+            </div>
+            <div className="py-1 fw-semibold text-muted text-nowrap">
+              Assigned Team:
+            </div>
+            <div className="py-1 fw-semibold text-muted text-nowrap">
+              Assigned To:
+            </div>
+            <div className="py-1 fw-semibold text-muted text-nowrap">Tags:</div>
           </div>
 
-          <div className="col-md-10">
+          <div className="col-8 col-sm-9 col-md-10 small">
             <div className="py-1 fw-semibold">
               <span
                 className={`badge me-1 ${getPriorityBadge(task?.priority)}`}
@@ -141,7 +149,7 @@ function TaskDetailsMeta({
 
       <div className="py-3 text-center">
         <button
-          className="col-4 fw-semibold text-white btn btn-info"
+          className="col-8 col-sm-4 fw-semibold text-white btn btn-info"
           onClick={() => handleUpdateStatusClick(task.id, task.status)}
           disabled={isTaskMutating || isFetchingTask}
         >

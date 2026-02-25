@@ -8,13 +8,13 @@ function ProjectList() {
   return (
     <div className="row">
       {projects.map((project) => (
-        <Link
+        <div
           key={project.id}
           to={`/projects/${project.id}`}
           className="col-sm-6 col-lg-4 project-link text-decoration-none mb-3"
         >
           <ProjectCard project={project} />
-        </Link>
+        </div>
       ))}
     </div>
   );
