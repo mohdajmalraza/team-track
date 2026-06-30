@@ -5,7 +5,7 @@ function ProjectCard({ project }) {
   return (
     <Link
       to={`/projects/${project.id}`}
-      className=" project-link text-decoration-none"
+      className="project-link text-decoration-none"
     >
       <div className="card h-100 px-3 py-2 border-0 bg-white d-flex flex-column shadow-sm">
         <div>

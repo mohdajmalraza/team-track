@@ -130,7 +130,7 @@ function ProjectFormModal({
 
               <button
                 type="submit"
-                className="btn btn-info text-dark"
+                className="btn btn-info text-white"
                 onClick={handleSubmit}
                 disabled={isProjectMutating}
               >

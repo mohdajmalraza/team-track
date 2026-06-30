@@ -2,7 +2,7 @@ import { useState } from "react";
 import TaskFormModal from "../modals/TaskFormModal";
 
 function TasksHeader() {
-  const [showTaskFromModal, setShowTaskFormModal] = useState(false);
+  const [showTaskFormModal, setShowTaskFormModal] = useState(false);
 
   return (
     <div className="d-flex justify-content-between mb-3">
@@ -18,7 +18,7 @@ function TasksHeader() {
       </div>
 
       <TaskFormModal
-        show={showTaskFromModal}
+        show={showTaskFormModal}
         onClose={() => setShowTaskFormModal(false)}
       />
     </div>

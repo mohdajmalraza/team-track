@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import TasksFiltersSection from "../components/common/TasksFilters";
+import TasksFilters from "../components/common/TasksFilters";
 import TasksHeader from "../components/tasks/TasksHeader";
 import TasksTable from "../components/tasks/TasksTable";
 import useTaskContext from "../context/TaskContext";
@@ -18,7 +18,7 @@ function TasksPage() {
     <>
       <main>
         <TasksHeader />
-        <TasksFiltersSection />
+        <TasksFilters />
         <TasksTable
           tasks={taskList}
           loading={isFetchingTasks}

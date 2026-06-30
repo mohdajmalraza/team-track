@@ -37,6 +37,20 @@ export function TeamProvider({ children }) {
     }
   };
 
+  const createTeam = async (data) => {
+    if (!token) return;
+
+    try {
+      const res = await axiosInstance.post("/api/teams", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setTeams((prev) => [...prev, res.data.team]);
+    } catch (error) {
+      throw new Error(error.response?.data?.message || "Team creation failed");
+    }
+  };
+
   useEffect(() => {
     if (!isAuthenticated) {
       setTeams([]);
@@ -47,7 +61,9 @@ export function TeamProvider({ children }) {
   }, [isAuthenticated]);
 
   return (
-    <TeamContext.Provider value={{ teams, loading, error }}>
+    <TeamContext.Provider
+      value={{ teams, loading, error, getTeams, createTeam }}
+    >
       {children}
     </TeamContext.Provider>
   );

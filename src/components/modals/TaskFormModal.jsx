@@ -54,27 +54,27 @@ function TaskFormModal({ show, mode = "create", taskToEdit = null, onClose }) {
     } = formData;
 
     if (!name.trim()) {
-      return setError("Task name is required");
+      return toast.error("Task name is required");
     }
 
     if (!project) {
-      return setError("Please select a project");
+      return toast.error("Please select a project");
     }
 
     if (!team) {
-      return setError("Please select a team");
+      return toast.error("Please select a team");
     }
 
     if (!owners.length) {
-      return setError("Please select owners");
+      return toast.error("Please select owners");
     }
 
     if (!timeToComplete) {
-      return setError("Estimated time is required");
+      return toast.error("Estimated time is required");
     }
 
     if (!dueDate) {
-      return setError("Due date is required");
+      return toast.error("Due date is required");
     }
 
     try {
@@ -346,8 +346,8 @@ function TaskFormModal({ show, mode = "create", taskToEdit = null, onClose }) {
               </form>
 
               {error && (
-                <div className="text-danger mt-3">
-                  <p>{error}</p>
+                <div className="alert alert-danger mt-3">
+                  <p className="p-0 m-0 fw-semibold">{error}</p>
                 </div>
               )}
             </div>

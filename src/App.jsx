@@ -20,6 +20,7 @@ import ProjectDetailsPage from "./pages/ProjectDetailsPage.jsx";
 import TasksPage from "./pages/TasksPage.jsx";
 import TaskDetailsPage from "./pages/TaskDetailsPage.jsx";
 import TeamsPage from "./pages/TeamsPage.jsx";
+import TeamDetailsPage from "./pages/TeamDetailsPage.jsx";
 import ReportsPage from "./pages/ReportsPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
       { path: "/tasks", element: <TasksPage /> },
       { path: "/tasks/:id", element: <TaskDetailsPage /> },
       { path: "/teams", element: <TeamsPage /> },
+      { path: "/teams/:id", element: <TeamDetailsPage /> },
       { path: "/reports", element: <ReportsPage /> },
       { path: "/settings", element: <SettingsPage /> },
     ],

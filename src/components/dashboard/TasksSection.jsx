@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useTaskContext from "../../context/TaskContext";
-import TaskCard from "./TaskCard";
+import TaskCard from "../common/TaskCard";
 import CardSkeleton from "../projects/CardSkeleton";
 
 function TasksSection() {
