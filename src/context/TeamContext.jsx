@@ -11,6 +11,7 @@ export function TeamProvider({ children }) {
   const { token, isAuthenticated } = useAuthContext();
 
   const [teams, setTeams] = useState([]);
+  const [team, setTeam] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -37,6 +38,30 @@ export function TeamProvider({ children }) {
     }
   };
 
+  const getTeamById = async (teamId) => {
+    if (!token) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const res = await axiosInstance.get(`/api/teams/${teamId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setTeam(res.data.team);
+    } catch (error) {
+      setTeam(null);
+      setError(error.response?.data?.message || "Failed to fetch team");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const createTeam = async (data) => {
     if (!token) return;
 
@@ -54,6 +79,7 @@ export function TeamProvider({ children }) {
   useEffect(() => {
     if (!isAuthenticated) {
       setTeams([]);
+      setTeam(null);
       return;
     }
 
@@ -62,7 +88,7 @@ export function TeamProvider({ children }) {
 
   return (
     <TeamContext.Provider
-      value={{ teams, loading, error, getTeams, createTeam }}
+      value={{ teams, team, loading, error, getTeams, getTeamById, createTeam }}
     >
       {children}
     </TeamContext.Provider>

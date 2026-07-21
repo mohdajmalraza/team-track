@@ -44,7 +44,7 @@ function TeamFormModal({ show, onClose }) {
 
       await createTeam({ name, members, description });
 
-      toast.success("Task created successfully");
+      toast.success("Team created successfully");
 
       onClose();
 
