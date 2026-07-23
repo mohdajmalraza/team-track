@@ -9,6 +9,7 @@ import { UserProvider } from "./context/UserContext.jsx";
 import { ProjectProvider } from "./context/ProjectContext.jsx";
 import { TaskProvider } from "./context/TaskContext.jsx";
 import { TeamProvider } from "./context/TeamContext.jsx";
+import { ReportProvider } from "./context/ReportContext.jsx";
 import RootRedirect from "./routes/RootRedirect.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
@@ -56,9 +57,11 @@ function App() {
         <ProjectProvider>
           <TaskProvider>
             <TeamProvider>
-              <UserProvider>
-                <RouterProvider router={router} />
-              </UserProvider>
+              <ReportProvider>
+                <UserProvider>
+                  <RouterProvider router={router} />
+                </UserProvider>
+              </ReportProvider>
             </TeamProvider>
           </TaskProvider>
         </ProjectProvider>
