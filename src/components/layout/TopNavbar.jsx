@@ -72,7 +72,10 @@ function TopNavbar() {
             className="bg-dark text-light border rounded-circle d-flex justify-content-center align-items-center"
             style={{ width: "32px", height: "32px" }}
           >
-            {user.name.split(" ").map((w) => w.charAt(0))}
+            {user.name
+              .split(" ")
+              .map((w) => w.charAt(0))
+              .slice(0, 2)}
           </span>
           <span className="fw-semibold">{user.name.split(" ")[0]}</span>
         </div>
